@@ -1,5 +1,5 @@
 # Autonomous-Farm-Robot
-UG Project
+
 
 # Remote Desktop for Jetson Nano
 For Remote Control, user needs to know the username of the board so for the initial configuration display is required.
