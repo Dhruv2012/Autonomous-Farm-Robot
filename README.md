@@ -55,15 +55,15 @@ SSH:
      bash scriptname.sh
      ```
      
-     Then at ubuntu host,activate Remmina  
+     Then at host or user machine,activate Remmina  
      ```
      Group = WORKGROUP
      
      Protocol = VNC
      
-     Server = IP_Address_of_host  (Can be obtained by `arp -a` command)   
+     Server = IP_Address_of_host_or_usermachine  (Can be obtained by `arp -a` command)   
      
-     Username = Username_of_host
+     Username = Username_of_host_or_usermachine
      
      Password = ***
      ```
