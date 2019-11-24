@@ -18,10 +18,11 @@ from keras.preprocessing.image import load_img,img_to_array
 from keras.utils.vis_utils import plot_model
 from keras.engine.topology import Layer
 
+
 import tensorflow as tf
 import yaml
 
-def small_Unet(labels=1,h=128,w=128, out_activation = "sigmoid"):
+def small_Unet(labels,h,w,out_activation):
     
     class MySoftmax(Layer):
         #http://cookie-box.hatenablog.com/entry/2017/08/15/231503 
@@ -101,4 +102,3 @@ def small_Unet(labels=1,h=128,w=128, out_activation = "sigmoid"):
         outputs = x
     model = Model(inputs=inputs,outputs=outputs)
     return model
-model.summary()
