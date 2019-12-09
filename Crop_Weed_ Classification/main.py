@@ -1,3 +1,7 @@
+#SIGMOID/SOFTMAX
+#LOSS
+#3RD DIMENISON
+
 import os,glob
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,6 +18,9 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from skimage.util import invert
 
+multiclass =  False
+retrain = True
+
 
 def dice_coef(y_true, y_pred):
     y_true = K.flatten(y_true)
@@ -24,12 +31,26 @@ def dice_coef(y_true, y_pred):
 def dice_coef_loss(y_true, y_pred):
     return 1 - dice_coef(y_true, y_pred)
 ###############################################3
-unet_model = small_Unet(1,128,128,"softmax")  
+path_x = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/images"
+path_y = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/annotations"
+
+if(retrain == False):
+    if (path_y == "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/annotations"):
+        model = small_Unet(3,128,128,out_activation=None)
+        l = layers.Reshape((128*128,3))(model.output)
+        output = layers.Activation("softmax")(l)
+        unet_model = Model(inputs = model.input, outputs = output)
+        unet_model.compile(loss = "categorical_crossentropy",optimizer = "Adam") 
+    elif(path_y == "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/masks"):
+        unet_model = small_Unet(1,128,128,"sigmoid")
+        unet_model.compile(loss = dice_coef_loss,optimizer = "Adam")
+else:
+    print("reloading previous weights............")
+    unet_model = load_model("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/cropvsweedv1.h5")
 unet_model.summary()
 ###############################################
-unet_model.compile(loss = dice_coef_loss,optimizer = "Adam")
 
-
+'''
 def load_dataset(path_x,path_y):
     x = []
     y = []
@@ -74,6 +95,7 @@ def load_dataset(path_x,path_y):
     return x,y
 
 x,y = load_dataset('/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/images','/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/masks')
+'''
 
 
 x_train = []
@@ -81,6 +103,7 @@ y_train = []
 x_test  = []
 y_test  = []
 
+'''
 with open("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml","r") as f:
     data = yaml.load(f)    
 
@@ -95,8 +118,7 @@ for i in data["train"]:
     img = img_to_array(img,dtype="uint8")
     img = invert(img)/255.
     y_train.append(img)
-    
-    
+        
 for number in data["test"]:
     number = "{0:03d}".format(number)
     x_path = os.path.join("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations","images",str.format(number)) + "_image.png" 
@@ -108,6 +130,76 @@ for number in data["test"]:
     img = img_to_array(img,dtype="uint8")
     img = invert(img)/255.
     y_test.append(img)
+'''
+
+
+
+
+def load_cwfid_withyaml(path_x,path_y,path_yaml):
+    x_train = []
+    y_train = []
+    x_test  = []
+    y_test  = []
+    if(path_y == "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/masks"):
+        multiclass =  False
+    elif(path_y == "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/annotations"):
+        multiclass = True
+    with open(path_yaml,"r") as f:
+        data = yaml.load(f)   
+    for i in data["train"]:
+        i = "{0:03d}".format(i)
+        x_path = os.path.join(path_x,str.format(i)) + "_image.png" 
+        img = load_img(x_path,target_size=(128,128))
+        img = img_to_array(img)/255
+        x_train.append(img)
+        if(multiclass):
+            y_path = os.path.join(path_y,str(i)) + "_annotation.png" 
+            img = load_img(y_path,target_size=(128,128))
+            img = img_to_array(img,dtype="uint8")/255.
+            weed = img[:,:,0]
+            crop = img[:,:,1]
+            temp = np.zeros((128,128,3))
+            temp[:,:, 0] = weed
+            temp[:, :, 1] = crop    
+            img = np.reshape(temp,(128*128,3))
+        else:    
+            y_path = os.path.join(path_y,str(i)) + "_mask.png" 
+            img = load_img(y_path,target_size=(128,128),color_mode="grayscale")
+            img = invert(img)
+            img = img_to_array(img,dtype="uint8")/255.
+            
+        y_train.append(img)
+        
+    for i in data["test"]:
+        i = "{0:03d}".format(i)
+        x_path = os.path.join(path_x,str.format(i)) + "_image.png" 
+        img = load_img(x_path,target_size=(128,128))
+        img = img_to_array(img)/255
+        x_test.append(img)
+        if(multiclass):
+            y_path = os.path.join(path_y,str(i)) + "_annotation.png" 
+            img = load_img(y_path,target_size=(128,128))
+            img = img_to_array(img,dtype="uint8")/255.
+            weed = img[:,:,0]
+            crop = img[:,:,1]
+            temp = np.zeros((128,128,3))
+            temp[:,:, 0] = weed
+            temp[:, :, 1] = crop    
+            img = np.reshape(temp,(128*128,3))
+        else:    
+            y_path = os.path.join(path_y,str(i)) + "_mask.png" 
+            img = load_img(y_path,target_size=(128,128),color_mode="grayscale")
+            img = invert(img)
+            img = img_to_array(img,dtype="uint8")/255.
+            
+        y_test.append(img)
+    x_train = np.array(x_train)
+    y_train = np.array(y_train)
+    x_test = np.array(x_test)
+    y_test = np.array(y_test)
+    return x_train,y_train,x_test,y_test
+
+x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,"/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml")
 
 '''
 print("x is:")
@@ -118,11 +210,13 @@ print("y is:")
 print(y.shape)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 0)
 '''
-
+'''
 x_train = np.array(x_train)
 y_train = np.array(y_train)
 x_test = np.array(x_test)
 y_test = np.array(y_test)
+'''
+
 
 
 print("heyy")
@@ -131,11 +225,20 @@ print(x_test.shape)
 print(y_train.shape)
 print(y_test.shape)
 
-history = unet_model.fit(x_train, y_train, batch_size=4, epochs=150,verbose=1,validation_data=(x_test,y_test),shuffle = True)
-unet_model.save("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/v1.h5")
+history = unet_model.fit(x_train, y_train, batch_size=4, epochs=100,verbose=1,validation_split = 0.2,shuffle = True)
+unet_model.save("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/cropvsweedv1.h5")
 plot_model(unet_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/unet_model_plot.png', show_shapes=True, show_layer_names=True)
 
 print("checking...")
+
+plt.subplot(1,1,1)
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
 
 plt.figure(figsize=(10,3))
 plt.subplot(1,3,1)
@@ -143,14 +246,13 @@ plt.title("input")
 plt.imshow(x_test[2])
 plt.subplot(1,3,2)
 plt.title("correct label")
-plt.imshow(y_test[2,:,:,0],cmap = 'gray')
+plt.imshow(np.reshape(y_test[2,:],(128,128,3)))
 
 
 prediction = unet_model.predict(x_test[2:3])
 #prediction shape will be (1,128,128,1)
-
 plt.subplot(1,3,3)
 plt.title("prediction")
-plt.imshow(prediction[0,:,:,0])
+plt.imshow(np.reshape(prediction,(128,128,3)))
 print("hey")
 plt.show()

@@ -97,7 +97,8 @@ def small_Unet(labels,h,w,out_activation):
     if out_activation == "sigmoid":
         outputs = layers.Activation("sigmoid")(x)
     elif out_activation == "softmax":
-        outputs =MySoftmax()(x)
+        #outputs =MySoftmax()(x)
+        outputs = layers.Activation("softmax")(x)
     elif  out_activation == None:
         outputs = x
     model = Model(inputs=inputs,outputs=outputs)
