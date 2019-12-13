@@ -18,7 +18,7 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from skimage.util import invert
 
-retrain = False
+retrain = True
 
 
 def dice_coef(y_true, y_pred):
@@ -238,7 +238,7 @@ print(x_test.shape)
 print(y_train.shape)
 print(y_test.shape)
 
-history = unet_model.fit(x_train, y_train, batch_size=4, epochs= 150,verbose=1,validation_data = (x_test,y_test),shuffle = True)
+history = unet_model.fit(x_train, y_train, batch_size=4, epochs= 20,verbose=1,validation_data = (x_test,y_test),shuffle = True)
 unet_model.save("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/cropvsweedv1.h5")
 plot_model(unet_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/unet_model_plot.png', show_shapes=True, show_layer_names=True)
 
@@ -260,7 +260,7 @@ plt.title('Model accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
-plt.show()
+
 
 '''
 plt.figure(figsize=(10,3))
@@ -283,13 +283,13 @@ plt.show()
 plt.figure(figsize=(10,3))
 plt.subplot(1,3,1)
 plt.title("input")
-plt.imshow(x_test[2])
+plt.imshow(x_train[2])
 plt.subplot(1,3,2)
 plt.title("correct label")
-plt.imshow(np.reshape(y_test[2,:],(128,128,3)))
+plt.imshow(np.reshape(y_train[2,:],(128,128,3)))
 
 
-prediction = unet_model.predict(x_test[2:3])
+prediction = unet_model.predict(x_train[2:3])
 #prediction shape will be (1,128,128,1)
 plt.subplot(1,3,3)
 plt.title("prediction")
