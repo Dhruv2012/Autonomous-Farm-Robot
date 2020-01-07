@@ -17,6 +17,7 @@ from keras.engine.topology import Layer
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from skimage.util import invert
+import cv2
 
 retrain = True
 
@@ -55,88 +56,10 @@ else:
 unet_model.summary()
 ###############################################
 
-'''
-def load_dataset(path_x,path_y):
-    x = []
-    y = []
-    for i in os.listdir(path_x):
-        if(os.path.isdir(os.path.join(path_x,i))):
-            os.chdir(os.path.join(path_x,i))
-            for file_path in glob.glob("*.png"):
-                img = load_img(str(file_path),target_size=(128,128))
-                img = img_to_array(img)/255
-                x.append(img)
-        else:   
-            if(os.path.splitext(i)[1] == '.png'):
-                print(os.path.join(path_x,i))
-                
-                img = load_img(os.path.join(path_x,i),target_size=(128,128))
-                img = img_to_array(img)/255
-                temp = int(i[1:3])
-                print(temp)
-                #x.append(img)
-                x.insert(temp - 1,img)
-        os.chdir(path_x)
-
-    for i in os.listdir(path_y):
-        if(os.path.isdir(os.path.join(path_y,i))):
-            os.chdir(os.path.join(path_y,i))
-            for file_path in glob.glob("*.png"):
-                ############################################################################
-                img = load_img(str(file_path),target_size=(128,128),color_mode="grayscale")
-                img = img_to_array(img)/255
-                y.append(img)
-        else:
-            if(os.path.splitext(i)[1] == '.png'):
-                print(os.path.join(path_y,i))
-                ############################################################################
-                img = load_img(os.path.join(path_y,i),target_size=(128,128),color_mode="grayscale")
-                img = img_to_array(img)/255
-                temp = int(i[1:3])
-                print(temp)
-                y.insert(temp - 1,img)
-                #y.append(img)
-        os.chdir(path_y)
-    return x,y
-
-x,y = load_dataset('/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/images','/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/masks')
-'''
-
-
 x_train = []
 y_train = []
 x_test  = []
 y_test  = []
-
-'''
-with open("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml","r") as f:
-    data = yaml.load(f)    
-
-for i in data["train"]:
-    i = "{0:03d}".format(i)
-    x_path = os.path.join("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations","images",str.format(i)) + "_image.png" 
-    img = load_img(x_path,target_size=(128,128))
-    img = img_to_array(img)/255
-    x_train.append(img)
-    y_path = os.path.join("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations","masks",str(i)) + "_mask.png" 
-    img = load_img(y_path,target_size=(128,128),color_mode="grayscale")
-    img = img_to_array(img,dtype="uint8")
-    img = invert(img)/255.
-    y_train.append(img)
-        
-for number in data["test"]:
-    number = "{0:03d}".format(number)
-    x_path = os.path.join("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations","images",str.format(number)) + "_image.png" 
-    img = load_img(x_path,target_size=(128,128))
-    img = img_to_array(img)/255
-    x_test.append(img)
-    y_path = os.path.join("/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations","masks",str(number)) + "_mask.png" 
-    img = load_img(y_path,target_size=(128,128),color_mode="grayscale")
-    img = img_to_array(img,dtype="uint8")
-    img = invert(img)/255.
-    y_test.append(img)
-'''
-
 
 
 
@@ -154,8 +77,11 @@ def load_cwfid_withyaml(path_x,path_y,path_yaml):
     for i in data["train"]:
         i = "{0:03d}".format(i)
         x_path = os.path.join(path_x,str.format(i)) + "_image.png" 
+        '''
         img = load_img(x_path,target_size=(128,128))
         img = img_to_array(img)/255
+        '''
+        img = multichannel_input(x_path,128,128)
         x_train.append(img)
         if(multiclass):
             y_path = os.path.join(path_y,str(i)) + "_annotation.png" 
@@ -182,8 +108,11 @@ def load_cwfid_withyaml(path_x,path_y,path_yaml):
     for i in data["test"]:
         i = "{0:03d}".format(i)
         x_path = os.path.join(path_x,str.format(i)) + "_image.png" 
+        '''
         img = load_img(x_path,target_size=(128,128))
         img = img_to_array(img)/255
+        '''
+        img = multichannel_input(x_path,128,128)
         x_test.append(img)
         if(multiclass):
             y_path = os.path.join(path_y,str(i)) + "_annotation.png" 
@@ -296,3 +225,26 @@ plt.title("prediction")
 plt.imshow(np.reshape(prediction,(128,128,3)))
 print("hey")
 plt.show()
+
+
+
+def multichannel_input(input_path,h,w):
+    image = load_img(input_path,target_size=(h,w))
+    img = img_to_array(image)
+    img = np.concatenate((img, np.zeros((h,w,7))), axis=2)
+    img = np.float16(img)
+    hsv = cv2.cvtColor(img_to_array(image), cv2.COLOR_RGB2HSV)
+    img[:,:,6] = (img[:,:,1] - img[:,:,0])/(img[:,:,1] + img[:,:,0])
+    img[:,:,5] = (0.881*img[:,:,1] - 0.441*img[:,:,0] - 0.385*img[:,:,2] - 18.78745)/255
+    img[:,:,4] = (1.4*img[:,:,0] - img[:,:,1])/255
+    img[:,:,3] = (2*img[:,:,1] - img[:,:,0] - img[:,:,2])/255
+    img[:,:,7] = hsv[:,:,0]/360
+    img[:,:,8] = hsv[:,:,1]
+    img[:,:,9] = hsv[:,:,2]/255
+    
+    img[:,:,0] = img[:,:,0]/255
+    img[:,:,1] = img[:,:,1]/255
+    img[:,:,2] = img[:,:,2]/255
+    return img
+    #img = img_to_array(img)/255
+    

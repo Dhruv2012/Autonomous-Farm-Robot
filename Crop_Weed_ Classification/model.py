@@ -103,3 +103,23 @@ def small_Unet(labels,h,w,out_activation):
         outputs = x
     model = Model(inputs=inputs,outputs=outputs)
     return model
+
+def bonnet():
+    def conv_bonnet(ip):
+         x = layers.Conv2D(16,(5,5),activation="relu",padding="same")(ip)
+         x = layers.BatchNormalization()(x)
+         return x
+     
+     def residual_bonnet(ip):
+         x = layers.Conv2D(8,(1,1),activation="relu",padding="same")(ip)
+         x = layers.Conv2D(8,(5,1),activation="relu",padding="same")(x)
+         x = layers.Conv2D(8,(1,5),activation="relu",padding="same")(x)
+         x = layers.Conv2D(16,(1,1),activation="relu",padding="same")(x)
+         ans = layers.Add()([ip,x])
+         return ans
+     
+     def pooling_bonnet(ip):
+         x = layers.MaxPooling2D(pool_size=(2,2),strides = 2)(ip)
+         return x
+     return
+     
