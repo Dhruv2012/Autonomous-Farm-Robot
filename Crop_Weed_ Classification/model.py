@@ -9,7 +9,6 @@ Created on Tue Nov 19 03:26:59 2019
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-
 import keras.backend as K
 import keras
 from keras import layers, activations
@@ -17,8 +16,6 @@ from keras.models import Model
 from keras.preprocessing.image import load_img,img_to_array
 from keras.utils.vis_utils import plot_model
 from keras.engine.topology import Layer
-
-
 import tensorflow as tf
 import yaml
 
@@ -104,22 +101,102 @@ def small_Unet(labels,h,w,out_activation):
     model = Model(inputs=inputs,outputs=outputs)
     return model
 
-def bonnet():
+def bonnet(h,w):
     def conv_bonnet(ip):
-         x = layers.Conv2D(16,(5,5),activation="relu",padding="same")(ip)
-         x = layers.BatchNormalization()(x)
-         return x
+        x = layers.Conv2D(16,(5,5),activation="relu",padding="same")(ip)
+        x = layers.BatchNormalization()(x)
+        return x
      
-     def residual_bonnet(ip):
-         x = layers.Conv2D(8,(1,1),activation="relu",padding="same")(ip)
-         x = layers.Conv2D(8,(5,1),activation="relu",padding="same")(x)
-         x = layers.Conv2D(8,(1,5),activation="relu",padding="same")(x)
-         x = layers.Conv2D(16,(1,1),activation="relu",padding="same")(x)
-         ans = layers.Add()([ip,x])
-         return ans
-     
-     def pooling_bonnet(ip):
-         x = layers.MaxPooling2D(pool_size=(2,2),strides = 2)(ip)
-         return x
-     return
+    def residual_bonnet(ip):
+        x = layers.Conv2D(8,(1,1),activation="relu",padding="same")(ip)
+        x = layers.Conv2D(8,(5,1),activation="relu",padding="same")(x)
+        x = layers.Conv2D(8,(1,5),activation="relu",padding="same")(x)
+        x = layers.Conv2D(16,(1,1),activation="relu",padding="same")(x)
+        ans = layers.Add()([ip,x])
+        return ans
+ 
+    def pooling_bonnet(ip):
+        x = layers.MaxPooling2D(pool_size=(2,2),strides = 2)(ip)
+        return x
+ 
+    def unpool(mask,x):
+        #mask, x = args
+        return layers.Multiply([mask,x])
+    
+    def mask_make(x, orig):
+        t = layers.UpSampling2D()(x)
+        _,a,b,c = orig.shape 
+        xReshaped = layers.Reshape((1,a*b*c))(t)
+        origReshaped = layers.Reshape((1,a*b*c))(orig)
+        together = layers.Concatenate(axis = -1)([origReshaped,xReshaped])
+        togReshaped = layers.Reshape((2,a,b,c))(together)
+        bool_mask = layers.Lambda(lambda t: K.greater_equal(t[:,0], t[:,1]))(togReshaped)
+        mask = layers.Lambda(lambda t: K.cast(t, dtype='float32'))(bool_mask)
+        return mask
+    
+    masks = []
+    inputs = layers.Input(shape=(h,w,14))
+    
+    x = conv_bonnet(inputs)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    orig = x
+    x = pooling_bonnet(x)
+    masks.append(mask_make(x,orig))
+    
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    orig = x
+    x = pooling_bonnet(x)
+    masks.append(mask_make(x,orig))
+    
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    orig = x
+    x = pooling_bonnet(x)
+    masks.append(mask_make(x,orig))
+    
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    orig = x
+    x = pooling_bonnet(x)
+    masks.append(mask_make(x,orig))
+    
+    #############  DECODER  ###################
+    
+    x = layers.UpSampling2D((2, 2))(x)
+    x = layers.Lambda(unpool)(masks[3], x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    
+    x = layers.UpSampling2D((2, 2))(x)
+    x = layers.Lambda(unpool)(masks[2], x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    
+    x = layers.UpSampling2D((2, 2))(x)
+    x = layers.Lambda(unpool)(masks[1], x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    
+    x = layers.UpSampling2D((2, 2))(x)
+    x = layers.Lambda(unpool)(masks[0], x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    x = residual_bonnet(x)
+    
+    outputs = x
+    
+    model = Model(inputs = inputs, outputs = outputs)
+    return model
+
+model = bonnet(512,384)
+model.summary()
      
