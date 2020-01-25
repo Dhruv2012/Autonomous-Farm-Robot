@@ -10,7 +10,7 @@ Apart from this, it can be controlled by the user remotely from his/her machine 
 SSH:
 1. Insert the SD Card and connect the ethernet to the board to provide Internet connection.
 2. Power on the board.
-3. On the user machine type the following commands.
+3. On the host machine type the following commands.
 
    `arp -a`
    
@@ -32,7 +32,7 @@ SSH:
      ```
      
      ```
-     export DISPLAY=:0`
+     export DISPLAY=:0
      gsettings set org.gnome.Vino enabled true
      gsettings set org.gnome.Vino prompt-enabled false
      gsettings set org.gnome.Vino require-encryption false
@@ -55,7 +55,7 @@ SSH:
      bash scriptname.sh
      ```
      
-     Then at host or user machine,activate Remmina  
+     Then at host machine,activate Remmina  
      ```
      Group = WORKGROUP
      
@@ -70,3 +70,22 @@ SSH:
      Connect using Remmina.
    
      And you have full GUI access of the board on your machine.
+     
+     # Problems faced:
+     => It might hapen in some case the board gets ip address of 169.254.x.y. Using this ip address, one might able to login              using ssh connection, but the board might not get internet access and tasks like updating, upgrading and installing packages cannot be done.In this case, make sure you have shared your internet connection through ethernet.To do this,
+     1.) Execute the following command on host machine where the jetson board is connected through wired connection(Ethernet).
+     ```
+     nm-connection-editor
+     ```
+     Now create a new Ethernet profile.
+     
+     ![](readme-images/nmeditor.png)
+     
+     Click on the + button to create and select Ethernet in connection type.
+     
+     In IPV4 settings change the method to "Shared to other computers".
+     
+     ![](readme-images/connection.png)
+
+     And you are set to go.
+
