@@ -119,10 +119,10 @@ def bonnet(h,w):
         x = layers.MaxPooling2D(pool_size=(2,2),strides = 2)(ip)
         return x
  
-    def unpool(mask,x):
-        #mask, x = args
-        return layers.Multiply([mask,x])
-    
+    def unpooling_bonnet(args):
+        mask, x = args
+        return layers.multiply([mask,x])
+
     def mask_make(x, orig):
         t = layers.UpSampling2D()(x)
         _,a,b,c = orig.shape 
@@ -133,7 +133,7 @@ def bonnet(h,w):
         bool_mask = layers.Lambda(lambda t: K.greater_equal(t[:,0], t[:,1]))(togReshaped)
         mask = layers.Lambda(lambda t: K.cast(t, dtype='float32'))(bool_mask)
         return mask
-    
+
     masks = []
     inputs = layers.Input(shape=(h,w,14))
     
@@ -143,8 +143,10 @@ def bonnet(h,w):
     x = residual_bonnet(x)
     orig = x
     x = pooling_bonnet(x)
+    
     masks.append(mask_make(x,orig))
     
+
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
@@ -169,25 +171,33 @@ def bonnet(h,w):
     #############  DECODER  ###################
     
     x = layers.UpSampling2D((2, 2))(x)
-    x = layers.Lambda(unpool)(masks[3], x)
+    temp = tf.convert_to_tensor(masks[3],dtype = tf.float32)
+    args = [temp,x]
+    x = keras.layers.Lambda(unpooling_bonnet)(args)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     
     x = layers.UpSampling2D((2, 2))(x)
-    x = layers.Lambda(unpool)(masks[2], x)
+    temp = tf.convert_to_tensor(masks[2],dtype = tf.float32)
+    args = [temp,x]
+    x = keras.layers.Lambda(unpooling_bonnet)(args)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     
     x = layers.UpSampling2D((2, 2))(x)
-    x = layers.Lambda(unpool)(masks[1], x)
+    temp = tf.convert_to_tensor(masks[1],dtype = tf.float32)
+    args = [temp,x]
+    x = keras.layers.Lambda(unpooling_bonnet)(args)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     
     x = layers.UpSampling2D((2, 2))(x)
-    x = layers.Lambda(unpool)(masks[0], x)
+    temp = tf.convert_to_tensor(masks[0],dtype = tf.float32)
+    args = [temp,x]
+    x = keras.layers.Lambda(unpooling_bonnet)(args)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     x = residual_bonnet(x)
