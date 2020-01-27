@@ -101,7 +101,7 @@ def small_Unet(labels,h,w,out_activation):
     model = Model(inputs=inputs,outputs=outputs)
     return model
 
-def bonnet(h,w):
+def bonnet(labels,h,w):
     def conv_bonnet(ip):
         x = layers.Conv2D(16,(5,5),activation="relu",padding="same")(ip)
         x = layers.BatchNormalization()(x)
@@ -202,11 +202,12 @@ def bonnet(h,w):
     x = residual_bonnet(x)
     x = residual_bonnet(x)
     
-    outputs = x
+    x = layers.Conv2D(labels,(1,1),activation="relu",padding="same")(x)
+    outputs = layers.Activation("softmax")(x)
     
     model = Model(inputs = inputs, outputs = outputs)
     return model
 
-model = bonnet(512,384)
-model.summary()
+#model = bonnet(3,512,384)
+#model.summary()
      
