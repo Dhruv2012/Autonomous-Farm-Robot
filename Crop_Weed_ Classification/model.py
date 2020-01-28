@@ -135,7 +135,7 @@ def bonnet(labels,h,w):
         return mask
 
     masks = []
-    inputs = layers.Input(shape=(h,w,14))
+    inputs = layers.Input(shape=(h,w,10))
     
     x = conv_bonnet(inputs)
     x = residual_bonnet(x)
@@ -203,8 +203,8 @@ def bonnet(labels,h,w):
     x = residual_bonnet(x)
     
     x = layers.Conv2D(labels,(1,1),activation="relu",padding="same")(x)
-    outputs = layers.Activation("softmax")(x)
-    
+    x = layers.Reshape((h*w,3))(x)
+    outputs = layers.Activation("softmax")(x) 
     model = Model(inputs = inputs, outputs = outputs)
     return model
 

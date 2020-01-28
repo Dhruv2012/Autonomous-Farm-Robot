@@ -35,6 +35,7 @@ def load_unet(labels,h,w):
 
 def load_bonnet(labels,h,w):
     model = bonnet(labels,h,w)
+    model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
     model.summary()
     return model
 
