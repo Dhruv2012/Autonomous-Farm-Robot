@@ -14,6 +14,11 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from skimage.util import invert
 import cv2
+from sklearn.model_selection import train_test_split
+path_x = "/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_imgs"
+path_y = "/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_imgs"
+h = 512
+w = 384
 
 def dice_coef(y_true, y_pred):
     y_true = K.flatten(y_true)
@@ -110,6 +115,48 @@ def load_cwfid_withyaml(path_x,path_y,path_yaml,h, w):
     y_test = np.array(y_test)
     return x_train,y_train,x_test,y_test
 
+def load_bonirob(path_x,path_y,h,w):
+    result = []
+    x = []
+    y = []
+    x_train = []
+    y_train = []
+    x_test  = []
+    y_test  = []
+    
+    result = preprocess(path_x,path_y)
+    print(len(result))
+
+    for i in result:
+        img = multichannel_input(os.path.join(path_x,i),h,w)
+        x.append(img)
+
+        img = load_img(os.path.join(path_y,i),target_size=(h,w))
+        img = img_to_array(img,dtype="uint8")/255.
+        weed = img[:,:,0]
+        crop = img[:,:,1]
+        temp = np.zeros((h,w,3))
+        temp[:,:, 0] = weed
+        temp[:, :, 1] = crop
+        back = img.copy()
+        back = np.all(img == [0, 0, 0],axis=-1)*1
+        temp[:,:, 2] = back
+        img = np.reshape(temp,(h*w,3))    
+        y.append(img)
+    x = np.array(x)
+    y = np.array(y)
+    print(x.shape)
+    print(y.shape)
+    x_train, x_test, y_train, y_test = train_test_split(x, y,random_state = 42)
+    x_train = np.array(x_train)
+    y_train = np.array(y_train)
+    x_test = np.array(x_test)
+    y_test = np.array(y_test)
+    return x_train,y_train,x_test,y_test
+
+    
+
+
 def print_shapes(x_train,y_train,x_test,y_test):
     print(x_train.shape)
     print(y_train.shape)
@@ -133,3 +180,19 @@ def plot_history(history):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
+
+
+def preprocess(pathx,pathy):
+    a = []
+    b = []
+    result = []
+    for files in glob.glob(pathx + "/*.png"):
+        a.append(os.path.split(files)[1])
+    for files in glob.glob(pathy + "/*.png"):
+        b.append(os.path.split(files)[1])
+    result = list(set(a) & set(b))
+    result = sorted(result)
+    return result
+
+
+x_train,y_train,x_test,y_test = load_bonirob(path_x,path_y,h,w)
