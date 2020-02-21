@@ -126,8 +126,8 @@ def load_bonirob(path_x,path_y,h,w):
     
     result = preprocess(path_x,path_y)
     print(len(result))
-
-    for i in result:
+    
+    for i in result:    
         img = multichannel_input(os.path.join(path_x,i),h,w)
         x.append(img)
 
@@ -143,6 +143,7 @@ def load_bonirob(path_x,path_y,h,w):
         temp[:,:, 2] = back
         img = np.reshape(temp,(h*w,3))    
         y.append(img)
+        
     x = np.array(x)
     y = np.array(y)
     print(x.shape)
@@ -194,5 +195,41 @@ def preprocess(pathx,pathy):
     result = sorted(result)
     return result
 
+def data_gen(img_folder, mask_folder,h ,w ,batch_size):
+    c = 0
+    n = os.listdir(img_folder) #List of training images
+    random.shuffle(n)
+    while True:
+        img = np.zeros((batch_size,h,w,10),dtype = np.float16)
+        mask = np.zeros((batch_size,h*w,3),dtype = np.float16)
 
-x_train,y_train,x_test,y_test = load_bonirob(path_x,path_y,h,w)
+        for i in range(c,c+batch_size):
+            train_img = multichannel_input(os.path.join(img_folder,n[i]),h,w)
+            img[i-c] = train_img
+
+            train_mask = load_img(os.path.join(mask_folder,n[i]),target_size=(h,w))
+            train_mask = img_to_array(train_mask,dtype="uint8")/255.
+            weed = train_mask[:,:,0]
+            crop = train_mask[:,:,1]
+            temp = np.zeros((h,w,3))
+            temp[:,:, 0] = weed
+            temp[:, :, 1] = crop
+            back = train_mask.copy()
+            back = np.all(train_mask == [0, 0, 0],axis=-1)*1
+            temp[:,:, 2] = back
+            train_mask = np.reshape(temp,(h*w,3)) 
+            mask[i-c] = train_mask
+
+    c+=batch_size
+    if(c+batch_size>=len(os.listdir(img_folder))):
+      c=0
+      random.shuffle(n)
+                  # print "randomizing again"
+    yield img, mask
+
+#x_train,y_train,x_test,y_test = load_bonirob(path_x,path_y,h,w)
+#print(x_train.shape)
+#print(y_train.shape)
+
+# check floating values of dataset loaded & is the predicition probability wise or channelwise
+# check generator
