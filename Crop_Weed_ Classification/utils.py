@@ -1,4 +1,4 @@
-import os,glob
+import os,glob,random
 import numpy as np
 import matplotlib.pyplot as plt
 from model import *
@@ -220,12 +220,12 @@ def data_gen(img_folder, mask_folder,h ,w ,batch_size):
             train_mask = np.reshape(temp,(h*w,3)) 
             mask[i-c] = train_mask
 
-    c+=batch_size
-    if(c+batch_size>=len(os.listdir(img_folder))):
-      c=0
-      random.shuffle(n)
-                  # print "randomizing again"
-    yield img, mask
+        c+=batch_size
+        if(c+batch_size>=len(os.listdir(img_folder))):
+            c=0
+            random.shuffle(n)
+                    # print "randomizing again"
+        yield img, mask
 
 #x_train,y_train,x_test,y_test = load_bonirob(path_x,path_y,h,w)
 #print(x_train.shape)
