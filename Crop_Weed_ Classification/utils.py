@@ -23,8 +23,8 @@ w = 384
 def dice_coef(y_true, y_pred):
     y_true = K.flatten(y_true)
     y_pred = K.flatten(y_pred)
-    intersection = K.sum(y_true * y_pred)
-    return (2.0 * intersection + 1) / (K.sum(y_true) + K.sum(y_pred) + 1)
+    intersection = K.sum(K.abs(y_true * y_pred),axis = -1)
+    return (2.0 * intersection + 1) / (K.sum(K.square(y_true)) + K.sum(K.square(y_pred)) + 1)
 
 def dice_coef_loss(y_true, y_pred):
     return 1 - dice_coef(y_true, y_pred)
@@ -34,13 +34,13 @@ def load_unet(labels,h,w):
     l = layers.Reshape((h*w,labels))(model.output)
     output = layers.Activation("softmax")(l)
     unet_model = Model(inputs = model.input, outputs = output)
-    unet_model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
+    #unet_model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
     unet_model.summary()
     return unet_model
 
 def load_bonnet(labels,h,w):
     model = bonnet(labels,h,w)
-    model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
+    #model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
     model.summary()
     return model
 

@@ -22,7 +22,7 @@ import cv2
 from utils import *
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard
 
-retrain = True
+retrain = False
 training_model = {"unet": 0, "bonnet": 1}
 MODEL = training_model["bonnet"]
 dataset = {"cwfid": 0, "bonirob": 1}
@@ -59,8 +59,8 @@ if(MODEL == training_model["unet"]):
         print("reloading previous weights............")
         seg_model = load_unet(3,h,w)
         seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/cropvsweedv1.h5")
-        seg_model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
         print("crop vs weeds model loaded...")
+
     if(DATASET == dataset["cwfid"]):
         x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,"/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml",h,w)
     elif(DATASET == dataset["bonirob"]):
@@ -82,9 +82,9 @@ elif(MODEL == training_model["bonnet"]):
     else:
         print("reloading previous weights............")
         seg_model = load_bonnet(3,h,w)
-        seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnetv2.h5")
-        seg_model.compile(loss = "categorical_crossentropy",optimizer = "Adam",  metrics=['accuracy'])
+        seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnetv1.h5")
         print("crop vs weeds model loaded...")
+    
     if(DATASET == dataset["cwfid"]):
         x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,"/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml",h,w)
     elif(DATASET == dataset["bonirob"]):
@@ -99,21 +99,23 @@ elif(MODEL == training_model["bonnet"]):
         print(train_gen)
 
 
-checkpoint = ModelCheckpoint("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet_bonirob/checkpoints/bonnet_{epoch:03d}_{val_acc:.2f}.hdf5", monitor='val_acc', verbose=1, save_best_only=True, save_weights_only = True ,mode='max', period = 20)
-csv_logger = CSVLogger("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet_bonirob/training.csv", separator=',', append=True)
-tensorboard = TensorBoard(log_dir='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet_bonirob/graphs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
+checkpoint = ModelCheckpoint("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/cwfid/v2/checkpoints/bonnet_{epoch:03d}_{val_acc:.2f}.hdf5", monitor='val_acc', verbose=1, save_best_only=True, save_weights_only = True ,mode='max', period = 20)
+csv_logger = CSVLogger("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/cwfid/v2/training.csv", separator=',', append=True)
+tensorboard = TensorBoard(log_dir='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/cwfid/v2/graphs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
 stopping = EarlyStopping(monitor='val_acc', min_delta=0.005, patience = 10, verbose=0, mode='max', baseline=None, restore_best_weights=True)
-callbacks_list = [checkpoint, csv_logger, stopping]
-'''
+callbacks_list = [checkpoint, csv_logger]
+
+seg_model.compile(loss = dice_coef_loss,optimizer = "Adam",  metrics=['accuracy'])
+
 if(DATASET == dataset["cwfid"]):
     print_shapes(x_train,y_train,x_test,y_test)
-    history = seg_model.fit(x_train, y_train, batch_size=4, epochs= 5,verbose=1,validation_data = (x_test,y_test),shuffle = True)
+    history = seg_model.fit(x_train, y_train, batch_size=4, epochs= 100,verbose=1,validation_data = (x_test,y_test),shuffle = True,callbacks = callbacks_list)
 elif(DATASET == dataset["bonirob"]):
     print("hryy")
     history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
     metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
     print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
-seg_model.save_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet_bonirob/bonnetv1.h5")
+seg_model.save_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/cwfid/v2/v2.h5")
 
 plot_model(seg_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/bonnet_model_plot.png', show_shapes=True, show_layer_names=True)
 print("checking...")
@@ -138,14 +140,14 @@ plt.title('Model accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
-'''
+
 
 imgs_x = []
 imgs_y = []
-test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/test/_2016-05-27-10-26-48_5_frame14.png'
+test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/train/_2016-05-27-10-26-48_5_frame63.png'
 imgx = multichannel_input(test_imgx,h,w)
 imgs_x.append(imgx)
-test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/test/_2016-05-27-10-26-48_5_frame14.png'
+test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/train/_2016-05-27-10-26-48_5_frame63.png'
 imgy = load_img(test_imgy,target_size=(h,w))
 imgy = img_to_array(imgy,dtype="uint8")/255.
 weed = imgy[:,:,0]
@@ -247,4 +249,4 @@ def visualize_results(seg_model,index):
     print("hey")
     plt.show()
 
-visualize_results(seg_model,4)
+visualize_results(seg_model,5)
