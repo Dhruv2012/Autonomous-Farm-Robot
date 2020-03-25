@@ -51,12 +51,23 @@ def soft_dice_loss(y_true, y_pred):
     print(y_pred.shape)
     epsilon=1e-6
     # skip the batch and class axis for calculating Dice score
-    axes = tuple(range(1, len(y_pred.shape)-1)) 
+    axes = tuple(range(1, len(y_pred.shape))) 
     print(axes)
     numerator = 2. * np.sum(y_pred * y_true, axes)
     denominator = np.sum(np.square(y_pred) + np.square(y_true), axes)
     
     return 1 - np.mean(numerator / (denominator + epsilon)) # average over classes and batch
+
+def dice_coef_lossv2(y_true, y_pred):
+    smooth = 1
+    axes = tuple(range(1, len(y_pred.shape)))
+    print(axes)
+    intersection = K.sum(y_true * y_pred, axes)
+    union = K.sum(y_true, axes) + K.sum(y_pred, axes)
+    dice = K.mean((2. * intersection + smooth)/(union + smooth), axis=0)
+    return 1 - dice
+
+
 
 def load_unet(labels,h,w):
     model = small_Unet(labels,h,w,out_activation=None)
