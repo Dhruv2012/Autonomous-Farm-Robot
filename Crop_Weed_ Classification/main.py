@@ -29,10 +29,12 @@ MODEL = training_model["bonnet"]
 DATASET = dataset["bonirob"]
 NO_OF_EPOCHS = 5
 BATCH_SIZE = 4
-result_dir = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/"
+results_dir = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/"
+save_weights_path = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/v2.h5"
 ############## CWFID DATASET ###################
 path_x = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/images"
 path_y = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/annotations"
+path_yaml = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml"
 h = 128
 w = 128
 ###############################################
@@ -65,7 +67,7 @@ if(MODEL == training_model["unet"]):
         seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/cropvsweedv1.h5")
        
     if(DATASET == dataset["cwfid"]):
-        x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,"/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml",h,w)
+        x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,path_yaml,h,w)
     elif(DATASET == dataset["bonirob"]):
         NO_OF_TRAINING_IMAGES = len(os.listdir(train_img_path))
         NO_OF_VAL_IMAGES = len(os.listdir(val_img_path))
@@ -87,7 +89,7 @@ elif(MODEL == training_model["bonnet"]):
 
     
     if(DATASET == dataset["cwfid"]):
-        x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,"/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/train_test_split.yaml",h,w)
+        x_train,y_train,x_test,y_test = load_cwfid_withyaml(path_x,path_y,path_yaml,h,w)
     elif(DATASET == dataset["bonirob"]):
         NO_OF_TRAINING_IMAGES = len(os.listdir(train_img_path))
         NO_OF_VAL_IMAGES = len(os.listdir(val_img_path))
@@ -97,10 +99,9 @@ elif(MODEL == training_model["bonnet"]):
         test_gen =  data_gen(test_img_path,test_mask_path ,h = 512 ,w = 384 ,batch_size = BATCH_SIZE)
         print(train_gen)
 
-
-checkpoint = ModelCheckpoint("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/checkpoints/bonnet_{epoch:03d}_{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, save_best_only=True, save_weights_only = True ,mode='min', period = 20)
-csv_logger = CSVLogger("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/training.csv", separator=',', append=True)
-tensorboard = TensorBoard(log_dir='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/graphs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
+checkpoint = ModelCheckpoint(results_dir + "checkpoints/" + "bonnet_{epoch:03d}_{val_loss:.2f}.hdf5", monitor='val_loss', verbose=1, save_best_only=True, save_weights_only = True ,mode='min', period = 20)
+csv_logger = CSVLogger(results_dir + "training.csv", separator=',', append=True)
+tensorboard = TensorBoard(log_dir= results_dir + "graphs", histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
 stopping = EarlyStopping(monitor='val_loss', min_delta=0.005, patience = 1, verbose=0, mode='min', baseline=None, restore_best_weights=True)
 callbacks_list = [checkpoint, csv_logger,stopping]
 
@@ -114,7 +115,7 @@ elif(DATASET == dataset["bonirob"]):
     history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
     metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
     print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
-seg_model.save_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v2/v2.h5")
+seg_model.save_weights(save_weights_path)
 
 plot_model(seg_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/bonnet_model_plot.png', show_shapes=True, show_layer_names=True)
 print("checking...")
