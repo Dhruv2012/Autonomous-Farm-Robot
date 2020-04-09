@@ -68,6 +68,18 @@ def dice_coef_lossv2(y_true, y_pred):
     return 1 - dice
 
 
+## Weights for Weighted categorical_crossentropy
+class_weights = [0.86,0.13,0.01] #Bonirob Dataset
+#class_weights = [0.20,0.75,0.05] #cwfid dataset
+
+def weighted_categorical_crossentropy(weights):
+    # weights = [0.9,0.05,0.04,0.01]
+    def wcce(y_true, y_pred):
+        Kweights = K.constant(weights)
+        if not K.is_tensor(y_pred): y_pred = K.constant(y_pred)
+        y_true = K.cast(y_true, y_pred.dtype)
+        return K.categorical_crossentropy(y_true, y_pred) * K.sum(y_true * Kweights, axis=-1)
+    return wcce
 
 def load_unet(labels,h,w):
     model = small_Unet(labels,h,w,out_activation=None)
