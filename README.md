@@ -1,7 +1,11 @@
-# Autonomous-Farm-Robot
+# Autonomous-Farm-Robot(Ongoing)
 
 
-# Remote Desktop for Jetson Nano
+# Electronics Components list:
+
+# Features:
+
+# a) Remote Desktop for Jetson Nano:
 For Remote Control, user needs to know the username of the board so for the initial configuration display is required.
 
 Controlling the board requires a display to be connected with board using HDMI. It does not support VGA compatible screens and hence requires HDMI compatible screens.
@@ -70,21 +74,21 @@ SSH:
      Connect using Remmina.
    
      And you have full GUI access of the board on your machine.
+# Resources Used:     
      
+# Project Build-Map:     
 # Happy building
 If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.
 
 # Project Team
 
 Project Guide:
-Dr. Anand Darji
+Dr. Anand Darji,
 Head & Associate Professor,
 ECED, SVNIT.
 
 Development Team:
-Mr. Dhruv Patel(U16EC053, SVNIT)
-Mr. Meet Gandhi(U16EC056, SVNIT)
-Mr. Shankarnarayan(U16EC07,SVNIT)
+Mr. Dhruv Patel(U16EC053, SVNIT) Mr. Meet Gandhi(U16EC056, SVNIT) Mr. Shankarnarayan(U16EC07,SVNIT)
 
 Special Thanks To:
 Mr. Mahesh Birajdar(U16ME016) and @Team DRISHTI for helping us in designing and manufacturing of AGRIBOT.
