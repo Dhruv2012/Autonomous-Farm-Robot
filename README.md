@@ -1,7 +1,12 @@
 # Autonomous-Farm-Robot(Ongoing)
 
 
-# Electronics Components list:
+# Tools & Components list:
+ | Components        | Specifications                            |   
+ | ------------------|:-----------------------------------------:|
+ | Nvidia Jetson Nano|                                           |
+ | Ublox M8N GPS     |                                           |  
+ | MPU 6050          |                                           |
 
 # Features:
 
