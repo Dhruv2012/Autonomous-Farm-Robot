@@ -88,13 +88,13 @@ If you have any questions or run into problems during understanding of our proje
 # Project Team
 
 Project Guide:
-Dr. Anand Darji,
-Head & Associate Professor,
+Dr. Anand Darji,\
+Head & Associate Professor,\
 ECED, SVNIT.
 
 Development Team:
-Mr. Dhruv Patel(U16EC053, SVNIT) --
-Mr. Meet Gandhi(U16EC056, SVNIT) --
+Mr. Dhruv Patel(U16EC053, SVNIT)\
+Mr. Meet Gandhi(U16EC056, SVNIT)\
 Mr. Shankarnarayan(U16EC07,SVNIT)
 
 Special Thanks To:
