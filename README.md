@@ -93,7 +93,9 @@ Head & Associate Professor,
 ECED, SVNIT.
 
 Development Team:
-Mr. Dhruv Patel(U16EC053, SVNIT) Mr. Meet Gandhi(U16EC056, SVNIT) Mr. Shankarnarayan(U16EC07,SVNIT)
+Mr. Dhruv Patel(U16EC053, SVNIT) --
+Mr. Meet Gandhi(U16EC056, SVNIT) --
+Mr. Shankarnarayan(U16EC07,SVNIT)
 
 Special Thanks To:
 Mr. Mahesh Birajdar(U16ME016) and @Team DRISHTI for helping us in designing and manufacturing of AGRIBOT.
