@@ -1,0 +1,27 @@
+agribot:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+
+  # Effort Controllers ---------------------------------------
+  leftwheelR_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: base_link_to_left_wheel_R_joint
+    pid: {p: 100.0, i: 0.1, d: 10.0}
+
+  leftwheelF_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: base_link_to_left_wheel_F_joint
+    pid: {p: 100.0, i: 0.1, d: 10.0}
+  
+  rightwheelR_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: base_link_to_right_wheel_R_joint
+    pid: {p: 100.0, i: 0.1, d: 10.0}
+
+  rightwheelF_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: base_link_to_right_wheel_F_joint
+    pid: {p: 100.0, i: 0.1, d: 10.0}

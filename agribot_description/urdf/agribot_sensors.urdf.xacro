@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<robot name="agribot"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Included URDF Files -->
+	<xacro:include filename="$(find agribot_description)/urdf/agribot_body.urdf.xacro" />	
+
+        <property name="ns" value="agribot" />
+    <!--Gazebo Plugin for simulating AGRIBOT dynamics
+    <gazebo>
+      <plugin name="agribot_dynamic" filename="libagribot_gazebo_plugins.so">
+            <maxForce>62.0</maxForce>
+            <bodyName>base_link</bodyName>
+            <waterDensity>997.7735</waterDensity>
+            <waterLevel>1</waterLevel>
+            <xyzDampingFactor>20.0</xyzDampingFactor>
+            <yawDampingFactor>20.0</yawDampingFactor>
+            <rolPitDampingFactor>5.0</rolPitDampingFactor>
+        </plugin>
+    </gazebo>-->
+
+	<gazebo>
+	  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    	  	<robotNamespace>${ns}</robotNamespace>
+  	  </plugin>
+	</gazebo>
+	
+
+    <!-- Set up imu configuration -->
+    <gazebo>
+        <plugin name="agribot_imu" filename="libgazebo_ros_imu.so">
+            <updateRate>20.0</updateRate>
+            <bodyName>imu_link</bodyName>
+            <topicName>imu/data</topicName>
+            <rpyOffsets>0 0 0</rpyOffsets> <!-- deprecated -->
+	    <serviceName>imu/is_calibrated</serviceName>
+            <gaussianNoise>0</gaussianNoise> <!-- deprecated -->
+            <accelDrift>0.5 0.5 0.5</accelDrift>
+            <accelGaussianNoise>0.35 0.35 0.3</accelGaussianNoise>
+            <rateDrift>0.1 0.1 0.1</rateDrift>
+            <rateGaussianNoise>0.05 0.05 0.015</rateGaussianNoise>
+            <headingDrift>0.1</headingDrift>
+            <headingGaussianNoise>0.05</headingGaussianNoise>
+	    <frameName>imu_frame</frameName>
+        </plugin>
+    </gazebo>
+
+    <!-- Set up gps configuration -->
+    <gazebo>
+        <plugin name="agribot_gps" filename="libagribot_ros_gps.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>10.0</updateRate>
+            <bodyName>gps_link</bodyName>
+            <topicName>navsat/fix</topicName>
+            <velocityTopicName>navsat/vel</velocityTopicName>
+            <drift>5.0 5.0 5.0</drift>
+            <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+            <velocityDrift>0 0 0</velocityDrift>
+            <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+        </plugin>
+    </gazebo> 
+</robot>
+

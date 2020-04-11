@@ -1,0 +1,23 @@
+
+<launch>
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+		<arg name="world_name" value="$(find sbot)/worlds/world1.world"/>	    
+		<arg name="gui" value="true"/>
+		<arg name="recording" default="true"/>	  
+	</include>
+
+	<!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
+	<param name="robot_description" command="$(find xacro)/xacro '$(find agribot_description)/urdf/agribot_sensors.urdf.xacro'" />
+
+	<!-- push robot_description to factory and spawn robot in gazebo -->
+	<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+ 		args="-urdf -x 0 -y 0 -z 0 -param robot_description  -model agribot" />	
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		 <!--<remap from="/joint_states" to="/agribot/joint_states" />-->
+	</node>
+  	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find agribot_description)/rviz/agribot_urdf.rviz" />-->
+
+	<include file="$(find agribot_control)/launch/agribot_control.launch"/>
+</launch>
