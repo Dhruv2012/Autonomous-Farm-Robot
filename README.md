@@ -1,13 +1,27 @@
-# Autonomous-Farm-Robot(Ongoing)
+# Autonomous-Farm-Robot(AGRIBOT)
+The primary objective of this project is to design an autonomous agricultural robot specifically
+used for the removal of weed on the real-time basis without any human involvement. This will
+help to offer better and nutrients rich yield involving less man-power than the conventional
+agriculture. This project can also be extended to design robot various other applications involved
+in farming like ploughing, harvesting, etc. in turn making agriculture more autonomous and
+providing better yields which in turn will impact on the country’s GDP and lesser farmer suicide
+rates.It is a UG project under guidence of TEQIP-3 and ECE department at SVNIT.
 
-
-## Tools & Components list:
+## Electronics Components list:
  | Components        | Specifications                            |   
  | ------------------|:-----------------------------------------:|
  | Nvidia Jetson Nano|                                           |
  | Ublox M8N GPS     |                                           |  
  | MPU 6050          |                                           |
+ | RPI 2 Camera      |                                           |
+ | DC Geared Motor   |                                           |
+ | Memory Card       |                                           |
+ |Cytron Motor Driver|                                           |
+ |Arduino Mega       |                                           |
 
+## Folder Organization:
+
+  
 ## Features:
 
 ### a) Remote Desktop for Jetson Nano:
@@ -80,7 +94,7 @@ SSH:
    
      And you have full GUI access of the board on your machine.
      
-     # Problems faced:
+ #### Problems faced:
      => It might hapen in some case the board gets ip address of 169.254.x.y. Using this ip address, one might able to login              using ssh connection, but the board might not get internet access and tasks like updating, upgrading and installing packages cannot be done.In this case, make sure you have shared your internet connection through ethernet.To do this,
      1.) Execute the following command on host machine where the jetson board is connected through wired connection(Ethernet).
      ```
@@ -101,7 +115,7 @@ SSH:
 ## Resources Used:     
      
 ## Project Build-Map:     
-## Happy building
+## Happy building.!
 If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.
 
 ## Project Team
@@ -117,6 +131,6 @@ Mr. Meet Gandhi(U16EC056, SVNIT)\
 Mr. Shankarnarayan(U16EC07,SVNIT)
 
 Special Thanks To:
-Mr. Mahesh Birajdar(U16ME016) and @Team DRISHTI for helping us in designing and manufacturing of AGRIBOT.
+Mr. Mahesh Birajdar(U16ME084) and *Team DRISHTI* for helping us in solidwork designing and manufacturing of AGRIBOT.
 
 
