@@ -69,7 +69,7 @@ def dice_coef_lossv2(y_true, y_pred):
 
 
 ## Weights for Weighted categorical_crossentropy
-class_weights = [0.86,0.13,0.01] #Bonirob Dataset
+class_weights = [0.86,0.11,0.1] #Bonirob Dataset
 #class_weights = [0.20,0.75,0.05] #cwfid dataset
 
 def weighted_categorical_crossentropy(weights):

@@ -22,12 +22,12 @@ import cv2
 from utils import *
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard
 
-reload_weights = False         # model trains from scratch if False
+reload_weights = True         # model trains from scratch if False
 training_model = {"unet": 0, "bonnet": 1}
 dataset = {"cwfid": 0, "bonirob": 1}
 MODEL = training_model["bonnet"]
 DATASET = dataset["bonirob"]
-NO_OF_EPOCHS = 2
+NO_OF_EPOCHS = 1
 BATCH_SIZE = 6
 results_dir = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/"
 save_weights_path = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/v3.h5"
@@ -115,8 +115,8 @@ if(DATASET == dataset["cwfid"]):
 elif(DATASET == dataset["bonirob"]):
     print("hryy")
     history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
-    metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
-    print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
+    #metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
+    #print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
 seg_model.save_weights(save_weights_path)
 
 plot_model(seg_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/bonnet_model_plot.png', show_shapes=True, show_layer_names=True)
@@ -149,10 +149,10 @@ def visualize_results(seg_model,index):
     global results_dir
     imgs_x = []
     imgs_y = []
-    test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/train/_2016-05-27-10-26-48_5_frame253.png'
+    test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/train/_2016-05-27-10-26-48_5_frame229.png'
     imgx = multichannel_input(test_imgx,h,w)
     imgs_x.append(imgx)
-    test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/train/_2016-05-27-10-26-48_5_frame253.png'
+    test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/train/_2016-05-27-10-26-48_5_frame229.png'
     imgy = load_img(test_imgy,target_size=(h,w))
     imgy = img_to_array(imgy,dtype="uint8")/255.
     weed = imgy[:,:,0]
