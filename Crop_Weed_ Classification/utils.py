@@ -14,7 +14,6 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from skimage.util import invert
 import cv2
-from sklearn.model_selection import train_test_split
 path_x = "/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_imgs"
 path_y = "/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_imgs"
 h = 512
