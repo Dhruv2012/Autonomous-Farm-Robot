@@ -16,4 +16,4 @@ Mr. Meet Gandhi(U16EC056, SVNIT) || gandhimeet1389@gmail.com\
 Mr. Shankarnarayan(U16EC07,SVNIT)|| shankar591998@gmail.com 
 
 Special Thanks To:
-Mr. Mahesh Birajdar(U16ME016) and 'Team DRISHTI' for helping us in designing and manufacturing of AGRIBOT.
+Mr. Mahesh Birajdar(U16ME016) and #Team_DRISHTI for helping us in designing and manufacturing of AGRIBOT.
