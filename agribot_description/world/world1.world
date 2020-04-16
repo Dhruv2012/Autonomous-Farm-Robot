@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+<world name="myworld">
+        <include>
+		<uri>model://sun</uri>
+	</include>
+
+	<!--<include>
+		<uri>model://ground_plane</uri>
+	</include>
+	<include>
+		<uri>model://willowgarage</uri>	
+	</include>-->
+
+  <include>
+    <uri>model://grass_plane</uri>
+    <name>grass_plane_0_0</name>
+    <pose>0 -1 0   0 0 0</pose>
+  </include>
+
+</world>
+</sdf>
