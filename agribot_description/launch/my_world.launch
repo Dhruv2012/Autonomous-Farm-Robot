@@ -1,7 +1,8 @@
 
+
 <launch>
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
-		<arg name="world_name" value="$(find sbot)/worlds/world1.world"/>	    
+		<arg name="world_name" value="$(find agribot_description)/worlds/world1.world"/>	    
 		<arg name="gui" value="true"/>
 		<arg name="recording" default="true"/>	  
 	</include>
@@ -13,11 +14,38 @@
 	<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
  		args="-urdf -x 0 -y 0 -z 0 -param robot_description  -model agribot" />	
 
-	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-		 <!--<remap from="/joint_states" to="/agribot/joint_states" />-->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+		<param name="use_gui" value="False"/>
+		<!--<remap from="/joint_state_publisher" to="/agribot/joint_states" />-->
+		 <rosparam param="/source_list">[agribot/joint_states]</rosparam>
+			<!--gazebo publishes the joint states to /robotname/joint_states topic and rviz listens to /joint_states topic
+			source list param takes the values from /robotname/joint_states and publishes to /joint_states-->
 	</node>
-  	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find agribot_description)/rviz/agribot_urdf.rviz" />-->
-
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<remap from="/joint_states" to="/agribot/joint_states" />
+	</node>
+  	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf)/urdf.rviz" />-->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find agribot_description)/rviz/agribot_urdf.rviz" >
+		<!--<remap from="/agribot/camera_link" to="/camera_link">-->
+	</node>
 	<include file="$(find agribot_control)/launch/agribot_control.launch"/>
+
+  <node
+    name="tf_"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 odom map 100"
+      ns="agribot"	 />
+  
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true"
+      ns="agribot"	 />
+
+<!--<node name="map_server" pkg="map_server" type="map_server"
+		 args="$(find agribot_description)/maps/farm.yaml" output="screen">
+	<param name="frame_id" value="map"/>
+</node>-->
 </launch>
