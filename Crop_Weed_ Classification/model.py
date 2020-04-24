@@ -10,13 +10,14 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import keras.backend as K
+import tensorflow as tf
 import keras
 from keras import layers, activations
 from keras.models import Model
 from keras.preprocessing.image import load_img,img_to_array
 from keras.utils.vis_utils import plot_model
 from keras.engine.topology import Layer
-import tensorflow as tf
+
 import yaml
 
 def small_Unet(labels,h,w,out_activation):

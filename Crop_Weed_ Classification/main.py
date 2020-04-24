@@ -26,11 +26,11 @@ reload_weights = True         # model trains from scratch if False
 training_model = {"unet": 0, "bonnet": 1}
 dataset = {"cwfid": 0, "bonirob": 1}
 MODEL = training_model["bonnet"]
-DATASET = dataset["bonirob"]
+DATASET = dataset["cwfid"]
 NO_OF_EPOCHS = 1
-BATCH_SIZE = 6
+BATCH_SIZE = 4
 results_dir = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/"
-save_weights_path = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/v3.h5"
+save_weights_path = results_dir + "v3.h5"
 
 ############## CWFID DATASET ###################
 path_x = "/home/dhruv/Final_Year_Project/Datasets/cwfid dataset(Annotated)/WithAnnotations/images"
@@ -84,7 +84,7 @@ elif(MODEL == training_model["bonnet"]):
         print("INITIALIZING TRAINING PROCEDURE.......")
         seg_model = load_bonnet(3,h,w)
     else:
-        print("RELOADING PREVIOUS WEIGHTS............")
+        print("RELOADING PREVIOUS WEIGHTS............") 
         seg_model = load_bonnet(3,h,w)
         seg_model.load_weights(save_weights_path)
 
@@ -104,17 +104,18 @@ checkpoint = ModelCheckpoint(results_dir + "checkpoints/" + "bonnet_{epoch:03d}_
 csv_logger = CSVLogger(results_dir + "training.csv", separator=',', append=True)
 tensorboard = TensorBoard(log_dir= results_dir + "graphs", histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
 stopping = EarlyStopping(monitor='val_loss', min_delta=0.003, patience = 1, verbose=0, mode='min', baseline=None, restore_best_weights=True)
-callbacks_list = [csv_logger,stopping]
+callbacks_list = [csv_logger]
 
 wcce = weighted_categorical_crossentropy(class_weights)
 seg_model.compile(loss = wcce,optimizer = "Adam",  metrics=['accuracy'])
-
+'''
 if(DATASET == dataset["cwfid"]):
     print_shapes(x_train,y_train,x_test,y_test)
     history = seg_model.fit(x_train, y_train, batch_size= BATCH_SIZE, epochs= NO_OF_EPOCHS,verbose=1,validation_data = (x_test,y_test),shuffle = True,callbacks = callbacks_list)
 elif(DATASET == dataset["bonirob"]):
     print("hryy")
-    history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
+    #history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
+    history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = 600, validation_data=val_gen, validation_steps=150, callbacks = callbacks_list)
     #metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
     #print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
 seg_model.save_weights(save_weights_path)
@@ -143,16 +144,16 @@ plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 #plt.show()
 plt.savefig(results_dir + 'fig1.png')
-
+'''
 
 def visualize_results(seg_model,index):
     global results_dir
     imgs_x = []
     imgs_y = []
-    test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/train/_2016-05-27-10-26-48_5_frame229.png'
+    test_imgx = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/input_img_preprocessed/test/_2016-05-27-10-26-48_5_frame254.png'
     imgx = multichannel_input(test_imgx,h,w)
     imgs_x.append(imgx)
-    test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/train/_2016-05-27-10-26-48_5_frame229.png'
+    test_imgy = '/home/dhruv/Final_Year_Project/Datasets/BoniRob dataset/output_img_preprocessed/test/_2016-05-27-10-26-48_5_frame254.png'
     imgy = load_img(test_imgy,target_size=(h,w))
     imgy = img_to_array(imgy,dtype="uint8")/255.
     weed = imgy[:,:,0]
@@ -217,4 +218,29 @@ def visualize_results(seg_model,index):
     #plt.show()
     plt.savefig(results_dir + 'fig3.png')
     
-visualize_results(seg_model,0)
+
+
+imgs_x = []
+test_imgx = '/home/dhruv/Final_Year_Project/Datasets/realcrops/WhatsApp Image 2020-04-23 at 6.55.40 PM.jpeg'
+imgx = multichannel_input(test_imgx,h,w)
+imgs_x.append(imgx)
+plt.figure(figsize=(20,3))
+plt.subplot(1,4,1)
+plt.title("input")
+plt.imshow(load_img(test_imgx,target_size=(h,w)))
+imgs_x = np.array(imgs_x)
+pred = seg_model.predict(imgs_x)
+plt.subplot(1,4,2)
+plt.title("class-wise prediction")
+plt.imshow(np.reshape(pred,(h,w,3)))
+prediction = pred.argmax(axis=-1)
+prediction = to_categorical(prediction,3)
+#prediction shape will be (1,128,128,1)
+plt.subplot(1,4,3)
+plt.title("prediction")
+plt.imshow(np.reshape(prediction,(h,w,3)))
+print("hey")
+#plt.show()
+plt.savefig(results_dir + 'realcropresults.png')
+
+visualize_results(seg_model,5)
