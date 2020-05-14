@@ -317,9 +317,19 @@ def UTMtoLL(UTMNorthing,UTMEasting,UTMZone):
 
   return (Lat, Long)
 
-
-
-
+def calculate_theta(msg,X,Y):
+	new_x = msg.latitude
+	new_y = msg.longitude
+	old_x = X
+	old_y = Y
+	a = sqrt(pow(new_x , 2) + pow(new_y , 2))
+	b = sqrt(pow(old_x , 2) + pow(old_y , 2))
+	c = sqrt(pow(new_x - old_x, 2) + pow(new_y - old_y , 2))
+	z = (a*a + b*b - c*c)/(2*a*b) 
+	#print(z)	
+	theta = acos(z)
+	return theta
+	
 
 
 def get_xy_based_on_lat_long(msg,distance_pub):
@@ -339,8 +349,9 @@ def get_xy_based_on_lat_long(msg,distance_pub):
 	rospy.loginfo("COORDINATES XYZ==>"+str(xg2)+","+str(yg2))
 	rospy.loginfo("COORDINATES AXY==>"+str(xa)+","+str(ya))
 	rospy.loginfo("COORDINATES UTM==>"+str(utmx)+","+str(utmy))'''
-
-	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,0.0)#incomplete
+	
+	theta = calculate_theta(msg,xg2,yg2)
+	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,theta)#(0,0,theta with z axis)
 
 	pose=Pose()
 
@@ -348,12 +359,12 @@ def get_xy_based_on_lat_long(msg,distance_pub):
 	pose.position.y=yg2
 
 	q=Quaternion()
-
+	
 	q.x = quaternion[0]
 	q.y = quaternion[1]
 	q.z = quaternion[2]
 	q.w = quaternion[3]
-
+	#print(q)
 	pose.orientation = q
 
 	distance_pub.publish(pose)
