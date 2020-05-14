@@ -48,4 +48,6 @@
 		 args="$(find agribot_description)/maps/farm.yaml" output="screen">
 	<param name="frame_id" value="map"/>
 </node>-->
+	<node name = "autonomusDrive" pkg = "agribot_description" type = "AutonomusDriveAction.py" ns = "agribot"/>
+	<node name = "gps_converter" pkg = "agribot_description" type = "GPS_data_conversion.py" ns = "agribot" launch-prefix="xterm -e"/>
 </launch>
