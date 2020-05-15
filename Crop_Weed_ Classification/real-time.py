@@ -1,10 +1,13 @@
 import cv2
 import time
 from utils import *
-from imutils.video import WebcamVideoStream
+from imutils.video import WebcamVideoStream, FileVideoStream
 from imutils.video import FPS
 from imutils import resize
 from keras.utils import to_categorical
+import argparse
+INPUT_VIDEO_PATH = '/home/dhruv/Final_Year_Project/Datasets/vokoscreen-2020-05-15_20-24-54.mkv'     # Input video path if not doing real-time
+
 #converts BGR frame to 10 channel input 
 def load_input(frame,h,w):
     frame_rgb = frame[:,:,[2, 1, 0]]
@@ -29,20 +32,23 @@ def load_input(frame,h,w):
 
 
 def realtime():
-    cap = WebcamVideoStream(src=0).start()                # for fast fps read
+    #cap = WebcamVideoStream(src=0).start()                 # for fast fps read for real-time
+    cap = FileVideoStream(INPUT_VIDEO_PATH).start()
     fps = FPS().start()
-    #cap = cv2.VideoCapture(0)                            # for cv2 read
+    #cap = cv2.VideoCapture(0)                              # for cv2 read
     # Check if camera opened successfully
     h = 512
     w = 384
     seg_model = load_bonnet(3,h,w)
     seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/v3.h5")    
-    while(True):
+    #while(True):                                           # for realtime
+    while cap.more():                                       # for input videostream
         start = time.time()
-        #ret,frame = cap.read()                           # for cv2 read
-        frame = cap.read()                                # for fast fps read webcamvideostream
-        #print(frame.shape)                                # frame is of: BGR type
+        #ret,frame = cap.read()                             # for cv2 read
+        frame = cap.read()                                  # for fast fps read webcamvideostream
+        #print(frame.shape)                                 # frame is of: BGR type
         frame = cv2.resize(frame, (w,h), interpolation = cv2.INTER_AREA) 
+        cv2.imshow('Input',frame)
         print(frame.shape)
         IP = []
         ip = load_input(frame,h,w)
@@ -53,7 +59,7 @@ def realtime():
         prediction = to_categorical(prediction,3)
         prediction = np.reshape(prediction,(h,w,3))
         prediction = prediction[:,:,[2, 1, 0]]
-        cv2.imshow('Output', prediction)                  # 2=> R 0=> B  frame => BGR
+        cv2.imshow('Output', prediction)                    # 2=> R 0=> B  frame => BGR
         end = time.time()
         fps.update()
         print("FrameRate:" + str(1/(end - start)))
@@ -62,8 +68,8 @@ def realtime():
             break
     fps.stop()
     print("FrameRate:" + str(fps.fps()))
-    cap.stop()                                             # for fast fps read
-    #cap.release()                                         # for cv2 read
+    cap.stop()                                              # for fast fps read
+    #cap.release()                                          # for cv2 read
     cv2.destroyAllWindows()
 
 realtime()
