@@ -8,6 +8,18 @@ from keras.utils import to_categorical
 import argparse
 INPUT_VIDEO_PATH = '/home/dhruv/Final_Year_Project/Datasets/vokoscreen-2020-05-15_20-24-54.mkv'     # Input video path if not doing real-time
 
+ap = argparse.ArgumentParser()
+ap.add_argument("-v", "--video", required=False,help = "Specify the input video path. If not specified it will run real-time from webcam/camera input")
+ap.add_argument("-m", "--modelweights", default = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/v3.h5", help = "Specifies the model weights path")
+args = ap.parse_args()
+ 
+if args.video == None:      
+    print("Hey")                    ## No path specified. Hence INput stream comes from webcam/camera(real-time)
+    src = 0                         ## Specify the camera port from which the video streams. It is same as argument to cv2.VideoCapture(src)
+else:
+    src = args.video                # Input stream from Video @path specified at command-line args
+    print(src)
+
 #converts BGR frame to 10 channel input 
 def load_input(frame,h,w):
     frame_rgb = frame[:,:,[2, 1, 0]]
@@ -30,19 +42,22 @@ def load_input(frame,h,w):
     return img
 
 
-
-def realtime():
-    #cap = WebcamVideoStream(src=0).start()                 # for fast fps read for real-time
-    cap = FileVideoStream(INPUT_VIDEO_PATH).start()
+def realtime(src,modelweightspath):
+    
+    if(type(src) == str):
+        cap = FileVideoStream(src).start()
+    elif(type(src) == int):
+        cap = WebcamVideoStream(src).start()                 # for fast fps read for real-time
+    
     fps = FPS().start()
-    #cap = cv2.VideoCapture(0)                              # for cv2 read
-    # Check if camera opened successfully
+    #cap = cv2.VideoCapture(0)                               # for cv2 read
     h = 512
     w = 384
     seg_model = load_bonnet(3,h,w)
-    seg_model.load_weights("/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/v3.h5")    
-    #while(True):                                           # for realtime
-    while cap.more():                                       # for input videostream
+    seg_model.load_weights(modelweightspath)    
+    check = True
+
+    while check:                                            
         start = time.time()
         #ret,frame = cap.read()                             # for cv2 read
         frame = cap.read()                                  # for fast fps read webcamvideostream
@@ -66,10 +81,11 @@ def realtime():
         c = cv2.waitKey(1)
         if c == 27:
             break
+        if(type(src) == str):                               # Check if next frame exists in case of video file
+            check = cap.more()
     fps.stop()
-    print("FrameRate:" + str(fps.fps()))
+    print("AVg FrameRate:" + str(fps.fps()))
     cap.stop()                                              # for fast fps read
     #cap.release()                                          # for cv2 read
     cv2.destroyAllWindows()
-
-realtime()
+realtime(src,args.modelweights)
