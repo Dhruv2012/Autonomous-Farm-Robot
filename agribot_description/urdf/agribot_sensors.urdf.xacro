@@ -30,24 +30,29 @@
 	</gazebo>
 	
 
-    <!-- Set up imu configuration -->
-    <gazebo>
-        <plugin name="agribot_imu" filename="libgazebo_ros_imu.so">
-            <updateRate>20.0</updateRate>
-            <bodyName>imu_link</bodyName>
-            <topicName>imu/data</topicName>
-            <rpyOffsets>0 0 0</rpyOffsets> <!-- deprecated -->
-	    <serviceName>imu/is_calibrated</serviceName>
-            <gaussianNoise>0</gaussianNoise> <!-- deprecated -->
-            <accelDrift>0.5 0.5 0.5</accelDrift>
-            <accelGaussianNoise>0.35 0.35 0.3</accelGaussianNoise>
-            <rateDrift>0.1 0.1 0.1</rateDrift>
-            <rateGaussianNoise>0.05 0.05 0.015</rateGaussianNoise>
-            <headingDrift>0.1</headingDrift>
-            <headingGaussianNoise>0.05</headingGaussianNoise>
-	    <frameName>imu_frame</frameName>
-        </plugin>
-    </gazebo>
+ <!-- Set up imu configuration -->
+    <gazebo>	
+        <plugin name="imu" filename="libhector_gazebo_ros_imu.so">
+	  <serviceName>/imu/calibrate</serviceName>
+	  <updateRate>200.0</updateRate>
+	  <bodyName>imu_link</bodyName>
+	  <frameId>imu_link</frameId>
+	  <topicName>imu</topicName>
+	  <rpyOffset>0 0 0</rpyOffset>
+	  <xyzOffset>0 0 0</xyzOffset>
+	  <gaussianNoise>0.00000001</gaussianNoise>
+	  <accelOffset>0 0 -9.79999999586</accelOffset>
+	  <accelDrift>0.00000001 0.00000001 0.00000001</accelDrift>
+	  <accelDriftFrequency>0.00000001 0.00000001 0.00000001</accelDriftFrequency>
+	  <accelGaussianNoise>0.00000001 0.00000001 0.00000001</accelGaussianNoise>
+	  <rateDrift>0.0 0.0 0.0</rateDrift>
+	  <rateDriftFrequency>0.0 0.0 0.0</rateDriftFrequency>
+	  <rateGaussianNoise>0.0 0.0 0.0</rateGaussianNoise>
+	  <headingDrift>0.0 0.0 0.0</headingDrift>
+	  <headingDriftFrequency>0.0 0.0 0.0</headingDriftFrequency>
+	  <headingGaussianNoise>0.0 0.0 0.0</headingGaussianNoise>
+	</plugin>
+     </gazebo>
 
     <!-- Set up gps configuration -->
     <gazebo> 
@@ -58,6 +63,11 @@
 	    <topicname>fix</topicname>
 	    <velocitytopicname>fix_velocity</velocitytopicname>
 	    <drift>5.0 5.0 5.0</drift>
+	    <offset>0 0 0</offset>
+	    <status> 0 </status>
+	    <service> 1 </service>
+            <referenceLatitude> 21.161289 </referenceLatitude>
+	    <referenceLongitude> 72.787022 </referenceLongitude>			
 	    <gaussiannoise>0.1 0.1 0.1</gaussiannoise>
 	    <velocitydrift>0 0 0</velocitydrift>
 	    <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>
