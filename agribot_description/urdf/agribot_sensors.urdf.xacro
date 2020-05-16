@@ -28,6 +28,29 @@
     	  	<robotNamespace>${ns}</robotNamespace>
   	  </plugin>
 	</gazebo>
+	<gazebo>
+		<plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>100.0</updateRate>
+    <robotNamespace>/agribot</robotNamespace>
+    <commandTopic>/agribot/cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <odometryFrame>odom</odometryFrame>
+    <leftFrontJoint>base_link_to_left_wheel_F_joint</leftFrontJoint>
+    <rightFrontJoint>base_link_to_right_wheel_F_joint</rightFrontJoint>
+    <leftRearJoint>base_link_to_left_wheel_R_joint</leftRearJoint>
+    <rightRearJoint>base_link_to_right_wheel_R_joint</rightRearJoint>
+    <wheelSeparation>0.65</wheelSeparation>
+    <wheelDiameter>0.2</wheelDiameter>
+    <robotBaseFrame>dummy_link</robotBaseFrame>
+    <torque>20</torque>
+    <topicName>/agribot/cmd_vel</topicName>
+    <broadcastTF>True</broadcastTF>
+    <covariance_x>0.000100</covariance_x>
+    <covariance_y>0.000100</covariance_y>
+    <covariance_z>0.000100</covariance_z>
+    <covariance_yaw>0.0100</covariance_yaw>
+  </plugin>
+</gazebo>>
 	
 
  <!-- Set up imu configuration -->
