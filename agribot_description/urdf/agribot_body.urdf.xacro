@@ -32,7 +32,7 @@
     </link>
   
     <joint name="dummy_link_to_base_link" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    	<origin xyz="0 0 0.26" rpy="0 0 0" />
         <parent link="dummy_link"/>
         <child link="base_link"/>
     </joint>
@@ -77,11 +77,11 @@
 
 	<!--Wheels-->
     <!-- left_wheel_Back -->
-    <agribot_part parent="base_link" name="left_wheel_R"  
+    <agribot_part parent="base_link" name="left_wheel_F"  
           translateX="-0.2519" translateY="-0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="left_wheel_R">
+    <gazebo reference="left_wheel_F">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
         <mu2>1.0</mu2>
@@ -91,11 +91,11 @@
     </gazebo>
 
     <!-- left_wheel_Front -->
-    <agribot_part parent="base_link" name="left_wheel_F"  			
+    <agribot_part parent="base_link" name="right_wheel_F"  			
           translateX="-0.2519" translateY="0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="left_wheel_F">
+    <gazebo reference="right_wheel_F">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
         <mu2>1.0</mu2>
@@ -105,11 +105,11 @@
     </gazebo>
 
     <!-- Right_wheel_back -->
-    <agribot_part parent="base_link" name="right_wheel_R"  
+    <agribot_part parent="base_link" name="left_wheel_R"  
           translateX="0.2519" translateY="-0.3908" translateZ="-0.1908"
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="right_wheel_R">
+    <gazebo reference="left_wheel_R">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
   	<mu2>1.0</mu2>
@@ -119,11 +119,11 @@
     </gazebo>
 
     <!-- Right_wheel_front -->
-    <agribot_part parent="base_link" name="right_wheel_F"  
+    <agribot_part parent="base_link" name="right_wheel_R"  
 	  translateX="0.2519" translateY="0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="right_wheel_F">
+    <gazebo reference="right_wheel_R">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
   	<mu2>1.0</mu2>
@@ -194,14 +194,14 @@
             <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
         </inertial>
 	<collision>
-     	 <origin xyz="0 0 0" rpy="0 0 0"/>
+     	 <origin xyz="0 0 0" rpy="0 1.57 0"/>
      	 <geometry>
        		 <cylinder radius="0.03" length="0.05"/>
 		<!--<mesh filename="package://agribot_description/meshes/camera.dae"/>-->
          </geometry>
    	 </collision>
    	 <visual>
-    	  <origin xyz="0 0 0" rpy="0 0 0"/>
+    	  <origin xyz="0 0 0" rpy="0 1.57 0"/>
     	  <geometry>
             <cylinder radius="0.03" length="0.05"/>
 	    <!--<mesh filename="package://agribot_description/meshes/camera.dae"/>-->
