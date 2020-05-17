@@ -333,12 +333,11 @@ def calculate_theta(msg,X,Y):
 
 
 def get_xy_based_on_lat_long(msg,distance_pub):
-	'''StartingPoint_lat = 49.8999571034
-	StartingPoint_long = 8.89994450323'''
-	
 	current_latitude=msg.latitude
 	current_longitude=msg.longitude
 
+	Goal_lat = 21.1613331649
+	Goal_lon = 72.7870533933
 	xg2,yg2 = ll2xy(current_latitude,current_longitude,Goal_lat,Goal_lon)#ll2xy???
 	utmy,utmx,utmzone = LLtoUTM(current_latitude,current_longitude)
 	xa,ya = ll2xy(current_latitude,current_longitude,Goal_lat,Goal_lon)#ll2xy???
@@ -369,14 +368,22 @@ def get_xy_based_on_lat_long(msg,distance_pub):
 
 	distance_pub.publish(pose)
 
+def callback(msg, mag_data):
+	#magnetic = Vector3()
+	magnetic_x = msg.vector.x
+	magnetic_y = msg.vector.y
+	heading = atan2(magnetic_y, magnetic_x) * 180/pi
+	mag_data.publish(heading)
 
 if __name__ == '__main__':
 	print("In main")
 	rospy.init_node('gps_converter')
 	print("Enter the Goal Location GPS coordinates")
-	Goal_lat=float(input("Enter Goal Latitude:"))
-	Goal_lon=float(input("Enter Goal Longitude:"))
-	distance_pub = rospy.Publisher('/distance',Pose,queue_size=50)
+	#Goal_lat=float(input("Enter Goal Latitude:"))
+	#Goal_lon=float(input("Enter Goal Longitude:"))
+	distance_pub = rospy.Publisher('/coordinates',Pose,queue_size=50)
 	rospy.Subscriber('/fix',NavSatFix,get_xy_based_on_lat_long,distance_pub)
-	rate = rospy.Rate(100) # 10hz
+	mag_data = rospy.Publisher('heading', Float64, queue_size=10)
+	rospy.Subscriber('/magnetic', Vector3Stamped , callback, mag_data)
+	rate = rospy.Rate(100) # 100hz
 	rospy.spin()
