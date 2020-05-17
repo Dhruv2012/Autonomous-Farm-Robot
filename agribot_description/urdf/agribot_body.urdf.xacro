@@ -76,12 +76,12 @@
     </gazebo>
 
 	<!--Wheels-->
-    <!-- left_wheel_Back -->
-    <agribot_part parent="base_link" name="left_wheel_F"  
+   <!-- left_wheel_Back -->
+    <agribot_part parent="base_link" name="left_wheel_R"  
           translateX="-0.2519" translateY="-0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="left_wheel_F">
+    <gazebo reference="left_wheel_R">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
         <mu2>1.0</mu2>
@@ -90,12 +90,12 @@
   	<fdir1 value="1 0 0"/>
     </gazebo>
 
-    <!-- left_wheel_Front -->
-    <agribot_part parent="base_link" name="right_wheel_F"  			
+    <!-- right_wheel_back -->
+    <agribot_part parent="base_link" name="right_wheel_R"  			
           translateX="-0.2519" translateY="0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="right_wheel_F">
+    <gazebo reference="right_wheel_R">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
         <mu2>1.0</mu2>
@@ -104,12 +104,12 @@
   	<fdir1 value="1 0 0"/>
     </gazebo>
 
-    <!-- Right_wheel_back -->
-    <agribot_part parent="base_link" name="left_wheel_R"  
+    <!-- left_wheel_front -->
+    <agribot_part parent="base_link" name="left_wheel_F"  
           translateX="0.2519" translateY="-0.3908" translateZ="-0.1908"
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="left_wheel_R">
+    <gazebo reference="left_wheel_F">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
   	<mu2>1.0</mu2>
@@ -119,11 +119,11 @@
     </gazebo>
 
     <!-- Right_wheel_front -->
-    <agribot_part parent="base_link" name="right_wheel_R"  
+    <agribot_part parent="base_link" name="right_wheel_F"  
 	  translateX="0.2519" translateY="0.3908" translateZ="-0.1908" 
           rotateX="0.0" rotateY="0.0" rotateZ="1.57"
           color="White" />
-    <gazebo reference="right_wheel_R">
+    <gazebo reference="right_wheel_F">
         <material>Gazebo/DarkGray</material>
 	<mu1>1.0</mu1>
   	<mu2>1.0</mu2>
@@ -179,6 +179,31 @@
     </joint>
 <gazebo reference="gps_link">
   <material>Gazebo/Black</material>
+</gazebo>
+
+<link name="magnetometer_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="Red"/>
+    </visual>
+  </link>
+
+<joint name="magnetometer_to_base_link" type="fixed">
+    <origin xyz="0.3 0 0" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="magnetometer_link"/>
+    </joint>
+<gazebo reference="magnetometer_link">
+  <material>Gazebo/Red</material>
 </gazebo>
 
  <!-- Set up camera linkage and configuration -->
