@@ -1,19 +1,25 @@
 #!/usr/bin/env python
 import rospy
 import time 
-
-
 import tf
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
 from tf.transformations import quaternion_from_euler
-from geometry_msgs.msg import Pose,Quaternion
-from math import *
+from geometry_msgs.msg import Pose,Quaternion,Vector3Stamped
+from std_msgs.msg import Float64
+from math import * 
 import re
 import numpy as np
 
 global current_latitude
 global current_longitude
+global old_x 
+global old_y 
+angle_between_OriginAndGoal = 0
+old_x =0
+old_y =0
+i = 0
+lisheading = []
 
 def  mdeglat(lat):
     '''
@@ -317,14 +323,10 @@ def UTMtoLL(UTMNorthing,UTMEasting,UTMZone):
 
   return (Lat, Long)
 
-def calculate_theta(msg,X,Y):
-	new_x = msg.latitude
-	new_y = msg.longitude
-	old_x = X
-	old_y = Y
-	a = sqrt(pow(new_x , 2) + pow(new_y , 2))
-	b = sqrt(pow(old_x , 2) + pow(old_y , 2))
-	c = sqrt(pow(new_x - old_x, 2) + pow(new_y - old_y , 2))
+def calculate_theta(curX,curY,goalX,goalY):
+	a = sqrt(pow(curX , 2) + pow(curY , 2))
+	b = sqrt(pow(goalX , 2) + pow(goalY , 2))
+	c = sqrt(pow(goalX-curX, 2) + pow(goalY - curY , 2))
 	z = (a*a + b*b - c*c)/(2*a*b) 
 	#print(z)	
 	theta = acos(z)
@@ -335,55 +337,50 @@ def calculate_theta(msg,X,Y):
 def get_xy_based_on_lat_long(msg,distance_pub):
 	current_latitude=msg.latitude
 	current_longitude=msg.longitude
+	global angle_between_OriginAndGoal 
 
-	Goal_lat = 21.1613331649
-	Goal_lon = 72.7870533933
-	xg2,yg2 = ll2xy(current_latitude,current_longitude,Goal_lat,Goal_lon)#ll2xy???
+	#startingPoint_latitude = 21.1613331649
+	#startingPoint_lonitude = 72.7870533933
+
+	xc,yc = ll2xy(current_latitude,current_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
+	xg,yg = ll2xy(Goal_latitude,Goal_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
+	xa,ya = ll2xy(current_latitude,current_longitude,Goal_latitude,Goal_longitude)#ll2xy
 	utmy,utmx,utmzone = LLtoUTM(current_latitude,current_longitude)
-	xa,ya = ll2xy(current_latitude,current_longitude,Goal_lat,Goal_lon)#ll2xy???
 
-	rospy.loginfo(current_latitude)
-	rospy.loginfo(current_longitude)
-	'''rospy.loginfo("LAT COORDINATES ==>"+str(p.lat)+","+str(p.lon))
-	rospy.loginfo("COORDINATES XYZ==>"+str(xg2)+","+str(yg2))
-	rospy.loginfo("COORDINATES AXY==>"+str(xa)+","+str(ya))
-	rospy.loginfo("COORDINATES UTM==>"+str(utmx)+","+str(utmy))'''
-	
-	theta = calculate_theta(msg,xg2,yg2)
-	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,theta)#(0,0,theta with z axis)
+	#rospy.loginfo(current_latitude)
+	#rospy.loginfo(current_longitude)
+		
+	angle_between_CurrAndGoal = calculate_theta(yc,-xc,yg,-xg)
+	angle_between_OriginAndGoal = calculate_theta(yc,-xc,ya,-xa)
+	#print(str(xg) + "," + str(yg))
+	print((angle_between_CurrAndGoal*180)/pi)
+	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,0.0)#(0,0,theta with z axis)
 
 	pose=Pose()
-
-	pose.position.x=xg2
-	pose.position.y=yg2
+	pose.position.x=yc 
+	pose.position.y=-xc
 
 	q=Quaternion()
-	
 	q.x = quaternion[0]
 	q.y = quaternion[1]
 	q.z = quaternion[2]
 	q.w = quaternion[3]
+
 	#print(q)
 	pose.orientation = q
-
 	distance_pub.publish(pose)
+	
 
-def callback(msg, mag_data):
-	#magnetic = Vector3()
-	magnetic_x = msg.vector.x
-	magnetic_y = msg.vector.y
-	heading = atan2(magnetic_y, magnetic_x) * 180/pi
-	mag_data.publish(heading)
 
 if __name__ == '__main__':
 	print("In main")
 	rospy.init_node('gps_converter')
-	print("Enter the Goal Location GPS coordinates")
-	#Goal_lat=float(input("Enter Goal Latitude:"))
-	#Goal_lon=float(input("Enter Goal Longitude:"))
-	distance_pub = rospy.Publisher('/coordinates',Pose,queue_size=50)
+	print("Enter the Starting & Goal Location GPS coordinates")
+	startingPoint_latitude=float(input("Enter Starting Latitude:"))
+	startingPoint_longitude=float(input("Enter Starting Longitude:"))
+	Goal_latitude=float(input("Enter Goal Latitude:"))
+	Goal_longitude=float(input("Enter Goal Longitude:"))
+	distance_pub = rospy.Publisher('/currentPose',Pose,queue_size=50)
 	rospy.Subscriber('/fix',NavSatFix,get_xy_based_on_lat_long,distance_pub)
-	mag_data = rospy.Publisher('heading', Float64, queue_size=10)
-	rospy.Subscriber('/magnetic', Vector3Stamped , callback, mag_data)
 	rate = rospy.Rate(100) # 100hz
 	rospy.spin()
