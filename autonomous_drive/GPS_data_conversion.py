@@ -12,14 +12,12 @@ import re
 import numpy as np
 
 global current_latitude
-global current_longitude
-global old_x 
-global old_y 
+global current_longitude 
 angle_between_OriginAndGoal = 0
-old_x =0
-old_y =0
 i = 0
 lisheading = []
+startingPoint_latitude = 21.1613331649
+startingPoint_longitude = 72.7870533933
 
 def  mdeglat(lat):
     '''
@@ -328,19 +326,22 @@ def calculate_theta(curX,curY,goalX,goalY):
 	b = sqrt(pow(goalX , 2) + pow(goalY , 2))
 	c = sqrt(pow(goalX-curX, 2) + pow(goalY - curY , 2))
 	z = (a*a + b*b - c*c)/(2*a*b) 
-	#print(z)	
+	print(b)	
 	theta = acos(z)
 	return theta
 	
 
 
-def get_xy_based_on_lat_long(msg,distance_pub):
+def get_xy_based_on_lat_long(msg,currLocation_pub):
 	current_latitude=msg.latitude
 	current_longitude=msg.longitude
 	global angle_between_OriginAndGoal 
-
+	global startingPoint_latitude
+	global startingPoint_longitude
 	#startingPoint_latitude = 21.1613331649
 	#startingPoint_lonitude = 72.7870533933
+	print(startingPoint_latitude)
+	print(startingPoint_longitude)
 
 	xc,yc = ll2xy(current_latitude,current_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
 	xg,yg = ll2xy(Goal_latitude,Goal_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
@@ -350,10 +351,12 @@ def get_xy_based_on_lat_long(msg,distance_pub):
 	#rospy.loginfo(current_latitude)
 	#rospy.loginfo(current_longitude)
 		
+	dis = sqrt(pow(ya , 2) + pow(xa , 2))
 	angle_between_CurrAndGoal = calculate_theta(yc,-xc,yg,-xg)
 	angle_between_OriginAndGoal = calculate_theta(yc,-xc,ya,-xa)
 	#print(str(xg) + "," + str(yg))
 	print((angle_between_CurrAndGoal*180)/pi)
+	print((angle_between_OriginAndGoal*180)/pi)
 	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,0.0)#(0,0,theta with z axis)
 
 	pose=Pose()
@@ -368,19 +371,26 @@ def get_xy_based_on_lat_long(msg,distance_pub):
 
 	#print(q)
 	pose.orientation = q
-	distance_pub.publish(pose)
+	distance_pub.publish(dis)
+	currLocation_pub.publish(pose)
 	
-
+def publishing_OriginGPS(msg):
+	global startingPoint_latitude
+	global startingPoint_longitude	
+	startingPoint_latitude = msg.latitude
+	startingPoint_longitude = msg.longitude
 
 if __name__ == '__main__':
 	print("In main")
 	rospy.init_node('gps_converter')
 	print("Enter the Starting & Goal Location GPS coordinates")
-	startingPoint_latitude=float(input("Enter Starting Latitude:"))
-	startingPoint_longitude=float(input("Enter Starting Longitude:"))
-	Goal_latitude=float(input("Enter Goal Latitude:"))
-	Goal_longitude=float(input("Enter Goal Longitude:"))
-	distance_pub = rospy.Publisher('/currentPose',Pose,queue_size=50)
-	rospy.Subscriber('/fix',NavSatFix,get_xy_based_on_lat_long,distance_pub)
+	#startingPoint_latitude=float(input("Enter Starting Latitude:"))
+	#startingPoint_longitude=float(input("Enter Starting Longitude:"))
+	Goal_latitude=21.1613311089#float(input("Enter Goal Latitude:"))
+	Goal_longitude=72.7870899849#float(input("Enter Goal Longitude:"))
+	distance_pub = rospy.Publisher('/distance', Float64, queue_size = 5)
+	currLocation_pub = rospy.Publisher('/currentPose',Pose,queue_size=50)
+	rospy.Subscriber('/agribot/fix',NavSatFix,get_xy_based_on_lat_long,currLocation_pub)
+	rospy.Subscriber('/Pole/fix',NavSatFix,publishing_OriginGPS)
 	rate = rospy.Rate(100) # 100hz
 	rospy.spin()
