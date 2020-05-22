@@ -11,17 +11,17 @@ from sensor_msgs.msg import Imu
 
 
 
-def callback_from_imu(msg):
+def callback_for_angle(msg):
 	print(msg)
-	print("msg from imu")
+	print("msg for angle to turn")
 
-def callback_from_gps(msg):
+def callback_for_distance(msg):
 	print(msg)
-	print("msg from GPS")
+	print("msg for distance to move")
 
 if __name__ =='__main__' :
-	rospy.init_node("autonomusdrive")
+	rospy.init_node("autonomousdrive")
 	pub = rospy.Publisher("/agribot/cmd_vel", Twist, queue_size = 10)
-	sub1 = rospy.Subscriber("/coordinates", Pose,callback_from_gps)
-	sub2 = rospy.Subscriber("/imu",Imu,callback_from_imu)
+	sub1 = rospy.Subscriber("/angle", Float64,callback_for_angle)
+	sub2 = rospy.Subscriber("/distance",Float64,callback_for_distance)
 	rospy.spin()
