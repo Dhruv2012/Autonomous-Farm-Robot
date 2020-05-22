@@ -1,0 +1,20 @@
+material vrc/farm
+{
+  receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 1.0
+			diffuse 0.4 0.4 0.4 1.0
+			specular 0.01 0.01 0.01 1.0 12.5
+
+			texture_unit
+			{
+				texture soil.png
+				filtering anistropic
+      			        max_anisotropy 16
+			}
+		}
+	}
+}

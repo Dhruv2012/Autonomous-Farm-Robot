@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+     
+<robot name="gpsbox" 
+	xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!--<xacro: property name="M_PI" value="3.1415926535897931" />
+<xacro: property name="Radius_of_pole" value="1"/>
+<xacro: property name="Height_of_pole" value="5"/>
+<xacro: property name="Mass_of_pole" value="2"/>-->
+
+<link name="dummy"> </link>
+  
+<link name="base_link">
+
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<cylinder length="0.5" radius="0.05"/>
+		</geometry>
+	</collision>
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<cylinder length="0.5" radius="0.05"/>
+		</geometry>
+		<material name="Gray"/>
+	</visual>
+	<inertial>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<mass value="2"/>
+		<!--ixx="${Mass_of_pole*(3*Radius_of_pole*Radius_of_pole+Height_of_pole*Height_of_pole)/12}" ixy = "0" ixz = "0"
+		    iyy="${Mass_of_pole*(3*Radius_of_pole*Radius_of_pole+Height_of_pole*Height_of_pole)/12}" iyz = "0"
+		    izz="${Mass_of_pole*Radius_of_pole*Radius_of_pole/2}"-->
+			<inertia ixx="0.0467" ixy = "0" ixz = "0"
+			iyy="0.0467" iyz = "0"
+			izz="0.01"/>
+	</inertial>
+</link>
+
+<joint name="dummy_joint" type="fixed">
+	<parent link="dummy"/>
+	<child link="base_link"/>
+</joint>
+
+ <link name="gps_pole_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.05"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+
+<joint name="gps_to_base_link" type="fixed">
+    <origin xyz="0 0 0.25" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="gps_pole_link"/>
+    </joint>
+
+<gazebo reference="gps_pole_link">
+  <material>Gazebo/Black</material>
+</gazebo>
+</robot>

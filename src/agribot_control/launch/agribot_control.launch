@@ -1,0 +1,15 @@
+<launch>
+
+	<rosparam file="$(find agribot_control)/config/agribot_control.yaml" command="load"/>
+ 	<!-- load the controllers -->
+  
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"    output="screen" ns="agribot"
+       args="joint_state_controller
+      rightwheelR_effort_controller
+      leftwheelR_effort_controller
+      rightwheelF_effort_controller
+      leftwheelF_effort_controller"
+  />
+
+	<param name="robot_description" command="$(find xacro)/xacro '$(find agribot_description)/urdf/agribot_sensors.urdf.xacro'" />
+</launch>
