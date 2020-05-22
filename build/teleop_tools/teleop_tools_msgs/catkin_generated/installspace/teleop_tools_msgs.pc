@@ -1,0 +1,8 @@
+prefix=/home/meet/agribot_ws/install
+
+Name: teleop_tools_msgs
+Description: Description of teleop_tools_msgs
+Version: 0.3.1
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime actionlib_msgs

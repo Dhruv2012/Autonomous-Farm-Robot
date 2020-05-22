@@ -1,0 +1,8 @@
+prefix=/home/meet/agribot_ws/install
+
+Name: marti_nav_msgs
+Description: Description of marti_nav_msgs
+Version: 0.8.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: geographic_msgs geometry_msgs marti_common_msgs sensor_msgs std_msgs message_runtime

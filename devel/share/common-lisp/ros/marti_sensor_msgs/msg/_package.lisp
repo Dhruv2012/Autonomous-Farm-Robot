@@ -1,0 +1,25 @@
+(cl:defpackage marti_sensor_msgs-msg
+  (:use )
+  (:export
+   "<ALTITUDE>"
+   "ALTITUDE"
+   "<DIFFERENTIALMEASUREMENT>"
+   "DIFFERENTIALMEASUREMENT"
+   "<DIOPORTSTATE>"
+   "DIOPORTSTATE"
+   "<DIOREALTIMEDATA>"
+   "DIOREALTIMEDATA"
+   "<DIRECTION>"
+   "DIRECTION"
+   "<EXPOSURE>"
+   "EXPOSURE"
+   "<GYRO>"
+   "GYRO"
+   "<VELOCITY>"
+   "VELOCITY"
+   "<WHEELENCODER>"
+   "WHEELENCODER"
+   "<WHEELENCODERSET>"
+   "WHEELENCODERSET"
+  ))
+

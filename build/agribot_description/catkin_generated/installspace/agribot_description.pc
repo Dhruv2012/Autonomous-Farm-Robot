@@ -1,0 +1,8 @@
+prefix=/home/meet/agribot_ws/install
+
+Name: agribot_description
+Description: Description of agribot_description
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

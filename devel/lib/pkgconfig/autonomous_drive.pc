@@ -1,0 +1,8 @@
+prefix=/home/meet/agribot_ws/devel
+
+Name: autonomous_drive
+Description: Description of autonomous_drive
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
