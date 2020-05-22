@@ -1,8 +1,7 @@
 
-
 <launch>
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
-		<arg name="world_name" value="$(find agribot_description)/worlds/world1.world"/>	    
+		<arg name="world_name" value="$(find agribot_description)/worlds/Farm.world"/>	    
 		<arg name="gui" value="true"/>
 		<arg name="recording" default="true"/>	  
 	</include>
@@ -12,11 +11,11 @@
 	<param name="pole_description" command="$(find xacro)/xacro '$(find agribot_description)/urdf/gate_sensor.urdf'" />
 
 	<!-- push robot_description to factory and spawn robot in gazebo -->
-	<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+	<!--<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
  		args="-urdf -x 0 -y 2 -z 0 -param robot_description  -model agribot"/>
 
 	<node name="agribot_pole_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
- 		args="-urdf -x 0 -y 0 -z 0 -param pole_description  -model Pole"/>	
+ 		args="-urdf -x 0 -y 0 -z 0 -param pole_description  -model Pole"/>-->	
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
 		<param name="use_gui" value="False"/>
@@ -41,17 +40,21 @@
     args="0 0 0 0 0 0 odom map 100"
       ns="agribot"	 />
   
-  <node
+  <!--<node
     name="fake_joint_calibration"
     pkg="rostopic"
     type="rostopic"
     args="pub /calibrated std_msgs/Bool true"
-      ns="agribot"	 />
+      ns="agribot"	 /> -->
 
 <!--<node name="map_server" pkg="map_server" type="map_server"
 		 args="$(find agribot_description)/maps/farm.yaml" output="screen">
 	<param name="frame_id" value="map"/>
 </node>-->
-	<node name = "autonomusDrive" pkg = "agribot_description" type = "AutonomusDriveAction.py" ns = "agribot"/>
-	<node name = "gps_converter" pkg = "agribot_description" type = "GPS_data_conversion.py" ns = "agribot" launch-prefix="xterm -e"/>
+
+	<!--<node name = "autonomusdrive" pkg = "autonomous_drive" type = "autonomus_drive.py" ns = "agribot"/>-->
+	<node name = "gps_converter" pkg = "autonomous_drive" type = "GPS_data_conversion.py" ns = "agribot" launch-prefix="xterm -e"/>
+	<node name = "sensor_data" pkg = "autonomous_drive" type = "data_manipulation.py" />
+<!--rosrun image_view image_view image:=/mybot/camera1/image_raw-->
+	
 </launch>
