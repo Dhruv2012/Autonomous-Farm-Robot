@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<robot name="agribot"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Included URDF Files -->
+	<xacro:include filename="$(find agribot_description)/urdf/entry_gate.urdf" />	
+
+
+
+    <!-- Set up gps configuration -->
+    <gazebo> 
+	<plugin name="gps_pole_controller" filename="libhector_gazebo_ros_gps.so">
+	    <alwayson>true</alwayson>
+	<robotNamespace>/Pole</robotNamespace>	
+	    <updateRate>5.0</updateRate>
+	    <bodyname>gps_pole_link</bodyname>
+	    <topicname>fix</topicname>
+	    <velocitytopicname>fix_velocity</velocitytopicname>
+	    <drift>5.0 5.0 5.0</drift>
+	    <offset>0 0 0</offset>
+	    <status> 0 </status>
+	    <service> 1 </service>
+            <referenceLatitude> 21.161289 </referenceLatitude>
+	    <referenceLongitude> 72.787022 </referenceLongitude>			
+	    <gaussiannoise>0.1 0.1 0.1</gaussiannoise>
+	    <velocitydrift>0 0 0</velocitydrift>
+	    <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>
+	</plugin>
+     </gazebo>
+
+</robot>
+

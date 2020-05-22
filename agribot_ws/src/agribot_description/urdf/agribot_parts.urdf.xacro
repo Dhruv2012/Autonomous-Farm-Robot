@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="agribot_parts">
+	
+	<property name="x_com" value="1.6567E-05" /> <!-- com : center of mass -->  
+	<property name="y_com" value="-1.6653E-16" /> <!-- com : center of mass -->
+	<property name="z_com" value="2.2204E-16" /> <!-- com : center of mass -->
+	
+	<property name="mass" value="0.411" /> <!-- in kg-->
+	
+	<property name="ixx_com_cs" value="0.0020959" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	<property name="ixy_com_cs" value="-4.2986E-19" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	<property name="ixz_com_cs" value="3.5506E-19" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	<property name="iyy_com_cs" value="0.00113" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	<property name="iyz_com_cs" value="-1.9664E-18" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	<property name="izz_com_cs" value="0.00113" /> <!-- at center of mass aligned with coordinate system, kg*m^2-->
+	
+	<xacro:macro name="agribot_part" params="parent name translateX translateY translateZ rotateX rotateY rotateZ color">
+		<joint name="${parent}_to_${name}_joint" type="continuous">
+		    <origin xyz="${translateX} ${translateY} ${translateZ}" 
+		            rpy="${rotateX} ${rotateY} ${rotateZ}" />
+		    <parent link="base_link" />
+		    <child link="${name}" />
+		    <axis xyz="1 0 0" rpy="0 0 0"/>
+    		    <limit effort="100" velocity="100"/>
+		    <joint_properties damping="0.0" friction="0.0"/>
+		</joint>
+		
+		<link name="${name}">
+			<inertial>
+				<mass value="${mass}" />
+				<origin xyz="${x_com} ${y_com} ${z_com}" 
+					rpy="0 0 0"	/>
+				<inertia ixx="${ixx_com_cs}" ixy="${ixy_com_cs}" ixz="${ixz_com_cs}"
+					iyy="${iyy_com_cs}" iyz="${iyz_com_cs}" izz="${izz_com_cs}" />
+			</inertial>
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+                			<mesh filename="package://agribot_description/meshes/wheel_1.STL"/>
+            			</geometry>
+        			<material name="${color}" />
+			</visual>
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					 <mesh filename="package://agribot_description/meshes/wheel_1.STL"/><!--needs to think about collision boundary-->
+				</geometry>
+			</collision>
+		</link>	
+
+		<transmission name="${name}_trans">
+  			<type>transmission_interface/SimpleTransmission</type>
+  			<joint name="${parent}_to_${name}_joint">
+				 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			</joint>
+  			<actuator name="${name}_Motor">
+    				<mechanicalReduction>10</mechanicalReduction>
+  			</actuator>
+		</transmission>
+	
+  	</xacro:macro>
+</robot>

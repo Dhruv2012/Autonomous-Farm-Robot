@@ -1,0 +1,20 @@
+
+<launch>
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
+		<arg name="world_name" value="$(find agribot_description)/worlds/Farm.world"/>	    
+		<arg name="gui" value="true"/>
+		<arg name="recording" default="true"/>	  
+	</include>
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+		<param name="use_gui" value="False"/>
+		<!--<remap from="/joint_state_publisher" to="/agribot/joint_states" />-->
+		 <rosparam param="/source_list">[agribot/joint_states]</rosparam>
+			<!--gazebo publishes the joint states to /robotname/joint_states topic and rviz listens to /joint_states topic
+			source list param takes the values from /robotname/joint_states and publishes to /joint_states-->
+	</node>
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<remap from="/joint_states" to="/agribot/joint_states" />
+	</node>
+
+</launch>

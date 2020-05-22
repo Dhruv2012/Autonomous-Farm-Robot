@@ -1,0 +1,83 @@
+<library path="lib/libmapviz_plugins">
+  <class name="mapviz_plugins/attitude_indicator" 
+         type="mapviz_plugins::AttitudeIndicatorPlugin" 
+         base_class_type="mapviz::MapvizPlugin">
+    <description>
+      Plugin to provide an intuitive visualization of orientations
+      from IMU messages, Odometry messages, and Tf messages.
+    </description>
+  </class>
+  <class name="mapviz_plugins/coordinate_picker" type="mapviz_plugins::CoordinatePickerPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Prints clicked coordinates in specified frame and copies to clipboard.</description>
+  </class>
+  <class name="mapviz_plugins/measuring" type="mapviz_plugins::MeasuringPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Measures the distance between points on the map.</description>
+  </class>
+  <class name="mapviz_plugins/odometry" type="mapviz_plugins::OdometryPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Odometry mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/pose" type="mapviz_plugins::PosePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Pose mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/marker" type="mapviz_plugins::MarkerPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Marker mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/textured_marker" type="mapviz_plugins::TexturedMarkerPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Textured marker mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/move_base" type="mapviz_plugins::MoveBasePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Interface to the [move_base] action server.</description>
+  </class>
+  <class name="mapviz_plugins/grid" type="mapviz_plugins::GridPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Grid mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/image" type="mapviz_plugins::ImagePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Image mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/disparity" type="mapviz_plugins::DisparityPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Disparity mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/draw_polygon" type="mapviz_plugins::DrawPolygonPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Plugin for drawing and publishing a polygon.</description>
+  </class>
+  <class name="mapviz_plugins/path" type="mapviz_plugins::PathPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Path mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/tf_frame" type="mapviz_plugins::TfFramePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>TF frame mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/plan_route" type="mapviz_plugins::PlanRoutePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Plan route mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/route" type="mapviz_plugins::RoutePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Route mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/robot_image" type="mapviz_plugins::RobotImagePlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Robot image mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/gps" type="mapviz_plugins::GpsPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>GPS mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/navsat" type="mapviz_plugins::NavSatPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>NavSat mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/laserscan" type="mapviz_plugins::LaserScanPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>LaserScan mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/pointcloud2" type="mapviz_plugins::PointCloud2Plugin" base_class_type="mapviz::MapvizPlugin">
+    <description>PointCloud2 mapviz plugin.</description>
+  </class>
+  <class name="mapviz_plugins/point_click_publisher" type="mapviz_plugins::PointClickPublisherPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Publishes a StampedPoint when a point on the map canvas is clicked.</description>
+  </class>
+  <class name="mapviz_plugins/string" type="mapviz_plugins::StringPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Displays a std_msgs/String at a fixed point on the canvas.</description>
+  </class>
+  <class name="mapviz_plugins/float" type="mapviz_plugins::FloatPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Displays a float and velocity messages at a fixed point on the canvas.</description>
+  </class>
+  <class name="mapviz_plugins/occupancy_grid" type="mapviz_plugins::OccupancyGridPlugin" base_class_type="mapviz::MapvizPlugin">
+    <description>Display maps and other OccupancyGrids</description>
+  </class>
+</library>
+
