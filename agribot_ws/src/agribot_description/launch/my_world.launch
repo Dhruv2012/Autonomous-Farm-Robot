@@ -1,6 +1,6 @@
 <launch>
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">	    
-		<arg name="world_name" value="$(find agribot_description)/worlds/Farm.world"/>	    
+		<arg name="world_name" value="$(find agribot_description)/worlds/world1.world"/>	    
 		<arg name="gui" value="true"/>
 		<arg name="recording" default="true"/>	  
 	</include>
@@ -10,11 +10,11 @@
 	<param name="pole_description" command="$(find xacro)/xacro '$(find agribot_description)/urdf/gate_sensor.urdf'" />
 
 	<!-- push robot_description to factory and spawn robot in gazebo -->
-	<!--<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+	<node name="agribot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
  		args="-urdf -x 0 -y 2 -z 0 -param robot_description  -model agribot"/>
 
 	<node name="agribot_pole_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
- 		args="-urdf -x 0 -y 0 -z 0 -param pole_description  -model Pole"/>-->	
+ 		args="-urdf -x 0 -y 0 -z 0 -param pole_description  -model Pole"/>	
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
 		<param name="use_gui" value="False"/>

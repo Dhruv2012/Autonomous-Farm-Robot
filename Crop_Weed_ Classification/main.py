@@ -21,12 +21,13 @@ from skimage.util import invert
 import cv2
 from utils import *
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard
+import keras_metrics
 
 reload_weights = True         # model trains from scratch if False
 training_model = {"unet": 0, "bonnet": 1}
 dataset = {"cwfid": 0, "bonirob": 1}
 MODEL = training_model["bonnet"]
-DATASET = dataset["cwfid"]
+DATASET = dataset["bonirob"]
 NO_OF_EPOCHS = 1
 BATCH_SIZE = 4
 results_dir = "/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/trained_models/bonnet/bonirob/v3/"
@@ -104,28 +105,27 @@ checkpoint = ModelCheckpoint(results_dir + "checkpoints/" + "bonnet_{epoch:03d}_
 csv_logger = CSVLogger(results_dir + "training.csv", separator=',', append=True)
 tensorboard = TensorBoard(log_dir= results_dir + "graphs", histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
 stopping = EarlyStopping(monitor='val_loss', min_delta=0.003, patience = 1, verbose=0, mode='min', baseline=None, restore_best_weights=True)
-callbacks_list = [csv_logger]
+callbacks_list = []
 
 wcce = weighted_categorical_crossentropy(class_weights)
-seg_model.compile(loss = wcce,optimizer = "Adam",  metrics=['accuracy'])
-'''
+seg_model.compile(loss = wcce,optimizer = "Adam",  metrics=['accuracy',iou_coef,keras_metrics.precision(),keras_metrics.recall()])
+
 if(DATASET == dataset["cwfid"]):
     print_shapes(x_train,y_train,x_test,y_test)
     history = seg_model.fit(x_train, y_train, batch_size= BATCH_SIZE, epochs= NO_OF_EPOCHS,verbose=1,validation_data = (x_test,y_test),shuffle = True,callbacks = callbacks_list)
 elif(DATASET == dataset["bonirob"]):
     print("hryy")
     #history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = (NO_OF_TRAINING_IMAGES//BATCH_SIZE),validation_data=val_gen, validation_steps=(NO_OF_VAL_IMAGES//BATCH_SIZE),callbacks = callbacks_list)
-    history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = 600, validation_data=val_gen, validation_steps=150, callbacks = callbacks_list)
-    #metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
+    #history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = 600, validation_data=val_gen, validation_steps=150, callbacks = callbacks_list)
+    metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
+    print(metrics)
     #print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
-seg_model.save_weights(save_weights_path)
+#seg_model.save_weights(save_weights_path)
 
+
+'''
 plot_model(seg_model, to_file='/home/dhruv/Final_Year_Project/Crop_Weed_ Classification/bonnet_model_plot.png', show_shapes=True, show_layer_names=True)
-print("checking...")
-
-#plot_history(history)
-
-
+plot_history(history)
 
 plt.figure(figsize=(10,3))
 plt.subplot(1,2,1)
@@ -144,7 +144,6 @@ plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 #plt.show()
 plt.savefig(results_dir + 'fig1.png')
-'''
 
 def visualize_results(seg_model,index):
     global results_dir
@@ -244,3 +243,4 @@ print("hey")
 plt.savefig(results_dir + 'realcropresults.png')
 
 visualize_results(seg_model,5)
+'''
