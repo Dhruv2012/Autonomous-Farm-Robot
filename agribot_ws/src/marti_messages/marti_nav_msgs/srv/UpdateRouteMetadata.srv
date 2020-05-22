@@ -1,0 +1,14 @@
+# This service is intended for modifying the properties on an existing route 
+# and its points.
+# 
+# The use of this service is a little non-intuitive.  Set route_guid to the GUID
+# of the route you want to modify, and fill metadata_points with all of the points
+# you want to modify.  The coordinates of the points actually don't matter; the
+# "guid" property will be matched against an existing point in the route, and that
+# point's properties will be replaced with the one in the new point.
+string route_guid # The GUID of the route to modify
+marti_nav_msgs/RoutePoint[] metadata_points # All of the points that should be modified
+---
+bool success
+string message
+

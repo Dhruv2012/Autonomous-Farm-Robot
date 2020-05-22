@@ -1,0 +1,23 @@
+<package format="2">
+  <name>marti_perception_msgs</name>
+  <version>0.8.0</version>
+  <description>
+
+     marti_perception_msgs
+
+  </description>
+  <author>Edmond DuPont</author>
+  <maintainer email="edupont@swri.org">Edmond DuPont</maintainer>
+  <license>BSD</license>
+  <url>https://github.com/swri-robotics/marti_messages</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+</package>
+

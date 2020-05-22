@@ -1,0 +1,115 @@
+teleop:
+  walk:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: cmd_vel
+    deadman_buttons: [4]
+    axis_mappings:
+      -
+        axis: 1
+        target: linear.x
+        scale: 0.5
+        offset: -0.03
+      -
+        axis: 0
+        target: angular.z
+        scale: 0.5
+      -
+        axis: 2
+        target: linear.y
+        scale: 0.3
+      -
+        button: 2
+        target: linear.z
+        scale: 3.0
+
+  force_push:
+    type: topic
+    message_type: geometry_msgs/Wrench
+    topic_name: base_link_wrench
+    deadman_buttons: [5, 7]
+    axis_mappings:
+      -
+        axis: 3
+        target: force.x
+        scale: 40
+      -
+        axis: 2
+        target: force.y
+        scale: 40
+
+  stop_everything:
+    type: action
+    action_name: stop_joints
+    buttons: [4, 5, 6, 7]
+
+  torso_up:
+    type: action
+    action_name: /torso_controller/increment
+    action_goal:
+      increment_by: [0.05]
+    buttons: [4]
+
+  torso_down:
+    type: action
+    action_name: /torso_controller/increment
+    action_goal:
+      increment_by: [-0.05]
+    buttons: [6]
+
+  stop:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: cmd_vel
+    deadman_buttons: [0, 2]
+    message_value:
+      -
+        target: linear.x
+        value: 0.0
+      -
+        target: angular.z
+        value: 0.0
+      -
+        target: linear.y
+        value: 0.0
+
+  hello:
+    type: topic
+    message_type: std_msgs/String
+    topic_name: chatter
+    deadman_buttons: [1]
+    message_value:
+      -
+        target: data
+        value: 'Hello'
+
+  array:
+    type: topic
+    message_type: std_msgs/UInt8MultiArray
+    topic_name: bytes
+    deadman_buttons: [5]
+    message_value:
+      -
+        target: data
+        value: [1,3,3,7]
+
+  array2:
+    type: topic
+    message_type: std_msgs/UInt8MultiArray
+    topic_name: bytes
+    deadman_buttons: [3]
+    message_value:
+      -
+        target: data
+        value:
+          - 4
+          - 2
+
+  add_two_ints:
+    type: service
+    service_name: /add_two_ints
+    service_request:
+      a: 11
+      b: 31
+    service_persistent: False # False by default
+    buttons: [10]

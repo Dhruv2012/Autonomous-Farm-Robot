@@ -1,0 +1,10 @@
+# Get route associated with the given GUID.
+
+string guid      # GUID of route to retrieve, as 32 hex digits
+
+---
+
+marti_nav_msgs/Route route
+
+bool success     # indicate successful run of triggered service
+string message   # informational, e.g. for error messages

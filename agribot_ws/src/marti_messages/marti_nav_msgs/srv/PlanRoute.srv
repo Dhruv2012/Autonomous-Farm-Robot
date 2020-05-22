@@ -1,0 +1,12 @@
+Header header                  # the frame the request and response are
+                               # referenced in
+
+geometry_msgs/Pose[] waypoints # series of points the route should pass through
+bool plan_from_vehicle         # add the vehicle position as the first waypoint
+
+---
+
+Route  route     # planned route
+
+bool success     # indicate successful run of service
+string message   # informational, e.g. for error messages
