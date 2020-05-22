@@ -1,8 +1,0 @@
-prefix=/home/meet/agribot_ws/install
-
-Name: joy_teleop
-Description: Description of joy_teleop
-Version: 0.3.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: actionlib

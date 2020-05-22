@@ -1,8 +1,0 @@
-prefix=/home/meet/agribot_ws/devel
-
-Name: mouse_teleop
-Description: Description of mouse_teleop
-Version: 0.3.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

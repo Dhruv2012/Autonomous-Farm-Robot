@@ -1,2 +1,0 @@
-set(marti_common_msgs_MESSAGE_FILES "msg/BoolStamped.msg;msg/ByteArrayStamped.msg;msg/DurationStamped.msg;msg/Float32Stamped.msg;msg/Float64Stamped.msg;msg/HealthStatus.msg;msg/Int16Stamped.msg;msg/Int32Stamped.msg;msg/Int64Stamped.msg;msg/Int8Stamped.msg;msg/KeyValue.msg;msg/KeyValueArray.msg;msg/Matrix3x3Stamped.msg;msg/ServiceHeader.msg;msg/StringArrayStamped.msg;msg/StringStamped.msg;msg/TimeStamped.msg;msg/UInt16Stamped.msg;msg/UInt32Stamped.msg;msg/UInt64Stamped.msg;msg/UInt8Stamped.msg")
-set(marti_common_msgs_SERVICE_FILES "")

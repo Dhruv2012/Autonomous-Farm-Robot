@@ -1,8 +1,0 @@
-prefix=/home/meet/agribot_ws/install
-
-Name: multires_image
-Description: Description of multires_image
-Version: 1.3.0
-Cflags: -I${prefix}/include -I/usr/include/x86_64-linux-gnu/qt5/ -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/lib/x86_64-linux-gnu/qt5//mkspecs/linux-g++ -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5/QtOpenGL -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets
-Libs: -L${prefix}/lib -lmultires_image -lmultires_image_plugin -lmultires_widget /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.9.5 /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.9.5 /usr/lib/x86_64-linux-gnu/libQt5OpenGL.so.5.9.5 /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.9.5
-Requires: mapviz pluginlib roscpp swri_transform_util swri_yaml_util tf

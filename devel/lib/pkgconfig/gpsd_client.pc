@@ -1,8 +1,0 @@
-prefix=/home/meet/agribot_ws/devel
-
-Name: gpsd_client
-Description: Description of gpsd_client
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
