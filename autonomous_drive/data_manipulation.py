@@ -12,9 +12,11 @@ from math import *
 import re
 import numpy as np
 import GPS_data_conversion 
+
 i = 0
 lisheading = []
 heading = 0
+
 def medianFilter(lis):
 	ans = np.median(lis)
 	return ans
@@ -47,7 +49,7 @@ def callbackRaw(msg,mag_data):
 	RawHeading = atan2(magnetic_y, magnetic_x) * 180/pi
 	mag_data.publish(RawHeading)
 
-def angle_to_move(msg):
+def angle_to_move(msg,angle_pub):
 	currentPosex = msg.position.x
 	currentPosey = msg.position.y
 	Current_heading = heading
@@ -61,15 +63,24 @@ def angle_to_move(msg):
 		angleToMove = 180 + Current_heading - angle_with_positive_X_axis + angle_between_origin_to_goal
 	else:
 		angleToMove = -1*180 + Current_heading + angle_with_positive_X_axis + angle_between_origin_to_goal
+	if(angleToMove > 360):
+		angleToMove = angleToMove - 360
+	elif(angleToMove < -360):
+		angleToMove = angleToMove + 360
+	else:
+		angleToMove = angleToMove 
 	print(angleToMove)
+	angle_pub.publish(angleToMove)
 
 	
 if __name__ == '__main__':
 	rospy.init_node('data_manipulation')
+	angleToMove = 0
 	pub = rospy.Publisher('Filteredheading', Float64, queue_size = 3)
-	mag_data = rospy.Publisher('Rawheading', Float64, queue_size=10)		
+	mag_data = rospy.Publisher('Rawheading', Float64, queue_size=10)
+	angle_pub = rospy.Publisher('angle', Float64, queue_size=10)		
 	rospy.Subscriber('/magnetic', Vector3Stamped , callback,pub,queue_size = 10)
-	rospy.Subscriber('/currentPose',Pose,angle_to_move,queue_size = 3)
+	rospy.Subscriber('/currentPose',Pose,angle_to_move,angle_pub,queue_size = 3)
 	rate = rospy.Rate(100) # 100hz
 	rospy.spin()
 	
