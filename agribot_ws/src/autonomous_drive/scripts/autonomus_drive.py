@@ -18,16 +18,15 @@ def callback_for_angle(msg):
 	global angle_to_goal,prev_angle_to_goal
 	prev_angle_to_goal = angle_to_goal
 	angle_to_goal = msg.data
-	print(msg.data)
+	#print(msg.data)
 	#print(type(msg))
-	print("msg for angle to turn")
+	print("msg for angle to turn: " + str(msg.data))
 	GPSAlgoV1()
 
 def callback_for_distance(msg):
 	global distance_to_goal
 	distance_to_goal = msg.data
-	print(msg.data)
-	print("msg for distance to move")
+	print("msg for distance to move: " + str(msg.data))
 	GPSAlgoV1()
 
 def GPSAlgoV1():
@@ -51,31 +50,40 @@ def GPSAlgoV1():
 	kp = 0.01
 	kd = 0.5
 	
-	if(distance_to_goal<1 or destination_flag == 1):
-		print("Reached Destination!!")
+	if(distance_to_goal<=1 or destination_flag == 1):
+		print("Destination reached!!")
 		destination_flag = 1
 		z_angular = 0
 		x_linear = 0
 
-	if(destination_flag == 0 and abs(orientation_error)>2):
-		#if(orientation_error>10 or orientation_error<-10):
-		z_angular = kp*orientation_error + kd*(orientation_error - prev_orientation_error)
-		x_linear=0
-		print("setting angle::")
+	if(destination_flag == 0):
+		if(abs(orientation_error) >= 2):
+			z_angular = kp*orientation_error + kd*(orientation_error - prev_orientation_error)
+			x_linear = 0.2		#Take slow turn while moving forward
+			if(abs(orientation_error)>10):
+				x_linear = 0	#Rotate at the present location as error is much larger
+				print("Rotating...")
+			if(distance_to_goal <= 1):
+				x_linear = 0	#Stop
+				z_angular = 0
+				destination_flag = 1
+				print("Destination reached!!")
+			#print("setting angle::")
+
+		elif(abs(orientation_error) < 2):
+			z_angular = 0		#Don't rotate as error is much smaller'
+			if(distance_to_goal > 1):
+				x_linear = 0.4	#Move straight to goal
+				print("Moving straight to goal")
+			elif(distance_to_goal <= 1):
+				x_linear = 0	#Stop
+				z_angular = 0
+				destination_flag = 1
+				print("Destination reached!!")
 			
 		if(abs(z_angular)>0.5):
 			z_angular = 0.5*(abs(z_angular)/z_angular)
 				
-		
-	
-	elif(destination_flag==0):
-		if(distance_to_goal>1):
-			z_angular = 0
-			x_linear = 1
-		else:
-			z_angular = 0
-			x_linear = 0
-			destination_flag = 1
 	velocity.angular.z = -1*z_angular
 	velocity.linear.x = x_linear
 	pub.publish(velocity)
