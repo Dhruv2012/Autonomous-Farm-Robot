@@ -12,9 +12,11 @@ from sensor_msgs.msg import Imu
 angle_to_goal = 0.0
 distance_to_goal = 0.0
 destination_flag = 0
+prev_angle_to_goal = 0.0
 
 def callback_for_angle(msg):
-	global angle_to_goal
+	global angle_to_goal,prev_angle_to_goal
+	prev_angle_to_goal = angle_to_goal
 	angle_to_goal = msg.data
 	print(msg.data)
 	#print(type(msg))
@@ -29,34 +31,42 @@ def callback_for_distance(msg):
 	GPSAlgoV1()
 
 def GPSAlgoV1():
-	global destination_flag,angle_to_goal,distance_to_goal 
+	global destination_flag,angle_to_goal,distance_to_goal,prev_angle_to_goal 
 	velocity = Twist()
 	x_linear = 0.0
 	z_angular = 0.0
 	orientation_error = float(angle_to_goal)
+	prev_orientation_error = float(prev_angle_to_goal)
 
 	if(orientation_error > 180):
 		orientation_error = orientation_error - 360.0
 	elif(orientation_error < -180):
 		orientation_error = orientation_error + 360.0
-	kp = 0.1
-	kd = 0
 	
-	if(distance_to_goal<1):
+	if(prev_orientation_error > 180):
+		prev_orientation_error = prev_orientation_error - 360.0
+	elif(prev_orientation_error < -180):
+		prev_orientation_error = prev_orientation_error + 360.0
+	
+	kp = 0.01
+	kd = 0.5
+	
+	if(distance_to_goal<1 or destination_flag == 1):
 		print("Reached Destination!!")
 		destination_flag = 1
+		z_angular = 0
+		x_linear = 0
 
 	if(destination_flag == 0 and abs(orientation_error)>2):
-		if(orientation_error>10 or orientation_error<-10):
-			z_angular = kp*orientation_error 
-			print("setting angle::")
+		#if(orientation_error>10 or orientation_error<-10):
+		z_angular = kp*orientation_error + kd*(orientation_error - prev_orientation_error)
+		x_linear=0
+		print("setting angle::")
 			
-			if(abs(z_angular)>1):
-				z_angular = 1*(abs(z_angular)/z_angular)
-				x_linear=0	
-		velocity.angular.z = z_angular
-		velocity.linear.x = x_linear
-		pub.publish(velocity)
+		if(abs(z_angular)>0.5):
+			z_angular = 0.5*(abs(z_angular)/z_angular)
+				
+		
 	
 	elif(destination_flag==0):
 		if(distance_to_goal>1):
@@ -66,9 +76,9 @@ def GPSAlgoV1():
 			z_angular = 0
 			x_linear = 0
 			destination_flag = 1
-		velocity.angular.z = z_angular
-		velocity.linear.x = x_linear
-		pub.publish(velocity)
+	velocity.angular.z = -1*z_angular
+	velocity.linear.x = x_linear
+	pub.publish(velocity)
 	
 
 if __name__ =='__main__' :
