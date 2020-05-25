@@ -27,9 +27,9 @@
 		<remap from="/joint_states" to="/agribot/joint_states" />
 	</node>
   	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf)/urdf.rviz" />-->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find agribot_description)/rviz/agribot_urdf.rviz" >
-		<!--<remap from="/agribot/camera_link" to="/camera_link">-->
-	</node>
+	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find agribot_description)/rviz/agribot_urdf.rviz" >
+		<remap from="/agribot/camera_link" to="/camera_link">
+	</node>-->
 	<include file="$(find agribot_control)/launch/agribot_control.launch"/>
 
   <node
@@ -52,7 +52,7 @@
 </node>-->
 
 	<!--<node name = "autonomusdrive" pkg = "autonomous_drive" type = "autonomus_drive.py" ns = "agribot"/>-->
-	<node name = "gps_converter" pkg = "autonomous_drive" type = "GPS_data_conversion.py" ns = "agribot" launch-prefix="xterm -e"/>
+	<node name = "gps_converter" pkg = "autonomous_drive" type = "GPS_data_conversion.py" launch-prefix="xterm -e"/>
 	<node name = "sensor_data" pkg = "autonomous_drive" type = "data_manipulation.py" />
 <!--rosrun image_view image_view image:=/mybot/camera1/image_raw-->
 	

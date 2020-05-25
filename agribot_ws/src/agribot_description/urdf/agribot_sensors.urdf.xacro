@@ -83,7 +83,7 @@
     <gazebo> 
 	<plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
 	    <alwayson>true</alwayson>
-	<robotNamespace>/agribot</robotNamespace>	
+	    <robotNamespace>/agribot</robotNamespace>	
 	    <updateRate>5.0</updateRate>
 	    <bodyname>gps_link</bodyname>
 	    <topicname>fix</topicname>
@@ -92,8 +92,8 @@
 	    <offset>0 0 0</offset>
 	    <status> 0 </status>
 	    <service> 1 </service>
-            <referenceLatitude> 21.161289 </referenceLatitude>
-	    <referenceLongitude> 72.787022 </referenceLongitude>			
+            <referenceLatitude> 21.1613108102 </referenceLatitude>
+	    <referenceLongitude> 72.7869817026 </referenceLongitude>			
 	    <gaussiannoise>0.1 0.1 0.1</gaussiannoise>
 	    <velocitydrift>0 0 0</velocitydrift>
 	    <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>

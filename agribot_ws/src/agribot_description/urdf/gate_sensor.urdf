@@ -24,8 +24,8 @@
 	    <offset>0 0 0</offset>
 	    <status> 0 </status>
 	    <service> 1 </service>
-            <referenceLatitude> 21.161289 </referenceLatitude>
-	    <referenceLongitude> 72.787022 </referenceLongitude>			
+            <referenceLatitude> 21.1613108102 </referenceLatitude>
+	    <referenceLongitude> 72.7869817026 </referenceLongitude>			
 	    <gaussiannoise>0.1 0.1 0.1</gaussiannoise>
 	    <velocitydrift>0 0 0</velocitydrift>
 	    <velocitygaussiannoise>0.1 0.1 0.1</velocitygaussiannoise>
