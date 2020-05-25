@@ -1,2 +1,3 @@
 agribot_ws/build
 agribot_ws/devel
+agribot_ws/src/autonomous_drive/scripts/*.pyc

@@ -123,9 +123,9 @@ UTM_E4   = (UTM_E2*UTM_E2)      # e^4
 UTM_E6   = (UTM_E4*UTM_E2)      # e^6
 UTM_EP2  = (UTM_E2/(1-UTM_E2))  # e'^2
 
-
+'''
 def ll2xy(lat,lon,origin_lat,origin_lon):
-    '''
+    
     Geonav: Lat/Long to X/Y
     Convert latitude and longitude in dec. degress to x and y in meters
     relative to the given origin location.  Converts lat/lon and orgin to UTM and then takes the difference
@@ -140,7 +140,7 @@ def ll2xy(lat,lon,origin_lat,origin_lon):
       tuple: (x,y) where...
         x is Easting in m (local grid)
         y is Northing in m  (local grid)
-    '''
+ 
 
     outmy, outmx, outmzone = LLtoUTM(origin_lat,origin_lon)
     utmy, utmx, utmzone = LLtoUTM(lat,lon)
@@ -149,16 +149,15 @@ def ll2xy(lat,lon,origin_lat,origin_lon):
     y = utmy-outmy
     x = utmx-outmx
     return (x,y) 
-
+'''
+'''
 def xy2ll(x, y, orglat, orglon):
-    '''
-    '''
     outmy, outmx, outmzone = LLtoUTM(orglat,orglon)
     utmy = outmy+y
     utmx = outmx+x
     return UTMtoLL(utmy,utmx,outmzone)
 
-'''*
+*
  * Determine the correct UTM letter designator for the
  * given latitude
  *
@@ -345,23 +344,32 @@ def get_xy_based_on_lat_long(msg,currLocation_pub):
 
 	xc,yc = ll2xy(current_latitude,current_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
 	xg,yg = ll2xy(Goal_latitude,Goal_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
-	xa,ya = ll2xy(current_latitude,current_longitude,Goal_latitude,Goal_longitude)#ll2xy
-	utmy,utmx,utmzone = LLtoUTM(current_latitude,current_longitude)
+	xa,ya = ll2xy(Goal_latitude,Goal_longitude,current_latitude,current_longitude)#ll2xy
 
 	#rospy.loginfo(current_latitude)
 	#rospy.loginfo(current_longitude)
-		
+	goal = NavSatFix()	
+	goal.header.stamp = rospy.get_rostime()
+	goal.header.frame_id = "/world"
+	goal.status.status = 1
+	goal.status.service = 1
+	goal.latitude = Goal_latitude
+	goal.longitude = Goal_longitude
+	goal.altitude = 4.47538895481
+	goal.position_covariance_type = 2
+	goal.position_covariance = [25.0, 0.0, 0.0, 0.0, 25.0, 0.0, 0.0, 0.0, 25.0]
+
 	dis = sqrt(pow(ya , 2) + pow(xa , 2))
-	angle_between_CurrAndGoal = calculate_theta(yc,-xc,yg,-xg)
-	angle_between_OriginAndGoal = calculate_theta(yc,-xc,ya,-xa)
+	angle_between_CurrAndGoal = calculate_theta(xc,yc,xg,yg)
+	angle_between_OriginAndGoal = calculate_theta(xc,yc,xa,ya)
 	#print(str(xg) + "," + str(yg))
 	print((angle_between_CurrAndGoal*180)/pi)
 	print((angle_between_OriginAndGoal*180)/pi)
 	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,0.0)#(0,0,theta with z axis)
 
 	pose=Pose()
-	pose.position.x=yc 
-	pose.position.y=-xc
+	pose.position.x=xg 
+	pose.position.y=yg
 
 	q=Quaternion()
 	q.x = quaternion[0]
@@ -373,6 +381,7 @@ def get_xy_based_on_lat_long(msg,currLocation_pub):
 	pose.orientation = q
 	distance_pub.publish(dis)
 	currLocation_pub.publish(pose)
+	goal_pub.publish(goal)
 	
 def publishing_OriginGPS(msg):
 	global startingPoint_latitude
@@ -386,8 +395,14 @@ if __name__ == '__main__':
 	print("Enter the Starting & Goal Location GPS coordinates")
 	#startingPoint_latitude=float(input("Enter Starting Latitude:"))
 	#startingPoint_longitude=float(input("Enter Starting Longitude:"))
+<<<<<<< HEAD
 	Goal_latitude=21.1612538933#float(input("Enter Goal Latitude:"))
 	Goal_longitude=72.7870579216#float(input("Enter Goal Longitude:"))
+=======
+	Goal_latitude=float(input("Enter Goal Latitude:"))#21.1613311089#
+	Goal_longitude=float(input("Enter Goal Longitude:"))#72.7870899849#
+	goal_pub = rospy.Publisher('goal_GPS', NavSatFix, queue_size = 5)
+>>>>>>> 4f4c4f5... logical error solved in local co-ordinatesystem
 	distance_pub = rospy.Publisher('/distance', Float64, queue_size = 5)
 	currLocation_pub = rospy.Publisher('/currentPose',Pose,queue_size=50)
 	rospy.Subscriber('/agribot/fix',NavSatFix,get_xy_based_on_lat_long,currLocation_pub)
