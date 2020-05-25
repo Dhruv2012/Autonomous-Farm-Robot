@@ -6,15 +6,8 @@
 
   <node pkg="swri_transform_util" type="initialize_origin.py" name="initialize_origin" >
     <param name="local_xy_frame" value="/map"/>
-    <param name="local_xy_origin" value="origin"/>
-    <rosparam param="local_xy_origins">
-      [{ name: origin,
-         latitude: 21.1613331649,
-         longitude: 72.7870533933,
-         altitude: 3,
-         heading: 0.0}
-         ]
-    </rosparam>
+    <param name="local_xy_origin" value="auto"/>
+      
   </node>
 
   <node pkg="tf" type="static_transform_publisher" name="agribot_mapviz_transform" args="0 0 0 0 0 0 /map /origin 100"  />
