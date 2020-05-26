@@ -36,7 +36,7 @@ def GPSAlgoV1():
 	z_angular = 0.0
 	orientation_error = float(angle_to_goal)
 	prev_orientation_error = float(prev_angle_to_goal)
-
+	'''
 	if(orientation_error > 180):
 		orientation_error = orientation_error - 360.0
 	elif(orientation_error < -180):
@@ -46,11 +46,11 @@ def GPSAlgoV1():
 		prev_orientation_error = prev_orientation_error - 360.0
 	elif(prev_orientation_error < -180):
 		prev_orientation_error = prev_orientation_error + 360.0
-	
+	'''
 	kp = 0.01
 	kd = 0.5
 	
-	if(distance_to_goal<=1 or destination_flag == 1):
+	if(distance_to_goal<=0.5 or destination_flag == 1):
 		print("Destination reached!!")
 		destination_flag = 1
 		z_angular = 0
@@ -84,14 +84,20 @@ def GPSAlgoV1():
 		if(abs(z_angular)>0.5):
 			z_angular = 0.5*(abs(z_angular)/z_angular)
 				
-	velocity.angular.z = -1*z_angular
+	velocity.angular.z = z_angular
 	velocity.linear.x = x_linear
 	pub.publish(velocity)
 	
 
 if __name__ =='__main__' :
-	rospy.init_node("autonomousdrive")
-	pub = rospy.Publisher("/agribot/cmd_vel", Twist, queue_size = 10)
-	sub1 = rospy.Subscriber("/angle", Float64,callback_for_angle)
-	sub2 = rospy.Subscriber("/distance",Float64,callback_for_distance)
-	rospy.spin()
+	try:
+		rospy.init_node("autonomousdrive")
+		pub = rospy.Publisher("/agribot/cmd_vel", Twist, queue_size = 10)
+		sub1 = rospy.Subscriber("/angle", Float64,callback_for_angle)
+		sub2 = rospy.Subscriber("/distance",Float64,callback_for_distance)
+		rospy.spin()
+	except rospy.ROSInterruptException:
+		velocity = Twist()
+        	velocity.angular.z = 0
+		velocity.linear.x = 0
+		pub.publish(velocity)    

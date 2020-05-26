@@ -14,7 +14,6 @@ import numpy as np
 global current_latitude
 global current_longitude 
 angle_between_OriginAndGoal = 0
-i = 0
 lisheading = []
 startingPoint_latitude = 21.1613331649
 startingPoint_longitude = 72.7870533933
@@ -82,7 +81,7 @@ def xy2ll(x, y, orglat, orglon):
 
     Args:
       x (float): Easting in m (Alvin local grid)
-      x (float): Northing in m (Alvin local grid)
+      y (float): Northing in m (Alvin local grid)
       orglat (float): Latitude of origin location
       orglon (float): Longitude of origin location
 
@@ -325,26 +324,27 @@ def calculate_theta(curX,curY,goalX,goalY):
 	b = sqrt(pow(goalX , 2) + pow(goalY , 2))
 	c = sqrt(pow(goalX-curX, 2) + pow(goalY - curY , 2))
 	z = (a*a + b*b - c*c)/(2*a*b) 
-	print(b)	
+	#print(b)	
 	theta = acos(z)
 	return theta
-	
-
 
 def get_xy_based_on_lat_long(msg,currLocation_pub):
-	current_latitude=msg.latitude
-	current_longitude=msg.longitude
-	global angle_between_OriginAndGoal 
+	global current_latitude, current_longitude, err_x, err_y
+	global angle_between_OriginAndGoal, i 
 	global startingPoint_latitude
 	global startingPoint_longitude
+
+	current_latitude=msg.latitude
+	current_longitude=msg.longitude
 	#startingPoint_latitude = 21.1613331649
 	#startingPoint_lonitude = 72.7870533933
-	print(startingPoint_latitude)
-	print(startingPoint_longitude)
+	#print(startingPoint_latitude)
+	#print(startingPoint_longitude)
 
 	xc,yc = ll2xy(current_latitude,current_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
 	xg,yg = ll2xy(Goal_latitude,Goal_longitude,startingPoint_latitude,startingPoint_longitude)#ll2xy
 	xa,ya = ll2xy(Goal_latitude,Goal_longitude,current_latitude,current_longitude)#ll2xy
+	xcc,ycc = ll2xy(startingPoint_latitude,startingPoint_longitude,current_latitude,current_longitude)#ll2xy
 
 	#rospy.loginfo(current_latitude)
 	#rospy.loginfo(current_longitude)
@@ -354,22 +354,23 @@ def get_xy_based_on_lat_long(msg,currLocation_pub):
 	goal.status.status = 1
 	goal.status.service = 1
 	goal.latitude = Goal_latitude
-	goal.longitude = Goal_longitude
+	goal.longitude = Goal_longitude 
 	goal.altitude = 4.47538895481
 	goal.position_covariance_type = 2
 	goal.position_covariance = [25.0, 0.0, 0.0, 0.0, 25.0, 0.0, 0.0, 0.0, 25.0]
 
 	dis = sqrt(pow(ya , 2) + pow(xa , 2))
-	angle_between_CurrAndGoal = calculate_theta(xc,yc,xg,yg)
-	angle_between_OriginAndGoal = calculate_theta(xc,yc,xa,ya)
+	#angle_between_CurrAndGoal = calculate_theta(xc,yc,xg,yg)
+	#angle_between_OriginAndGoal = calculate_theta(xcc,ycc,xa,ya)
+	angle_between_OriginAndGoal = atan2(ya ,xa ) * (180/pi)
 	#print(str(xg) + "," + str(yg))
-	print((angle_between_CurrAndGoal*180)/pi)
-	print((angle_between_OriginAndGoal*180)/pi)
+	#print((angle_between_CurrAndGoal*180)/pi)
+	print(angle_between_OriginAndGoal)
 	quaternion = tf.transformations.quaternion_from_euler(0.0,0.0,0.0)#(0,0,theta with z axis)
 
 	pose=Pose()
-	pose.position.x=xg 
-	pose.position.y=yg
+	pose.position.x=xa 
+	pose.position.y=ya 
 
 	q=Quaternion()
 	q.x = quaternion[0]
@@ -379,15 +380,17 @@ def get_xy_based_on_lat_long(msg,currLocation_pub):
 
 	#print(q)
 	pose.orientation = q
+	angleOG.publish(angle_between_OriginAndGoal)
 	distance_pub.publish(dis)
 	currLocation_pub.publish(pose)
-	goal_pub.publish(goal)
+	GPS_pub.publish(goal)
 	
 def publishing_OriginGPS(msg):
 	global startingPoint_latitude
 	global startingPoint_longitude	
 	startingPoint_latitude = msg.latitude
 	startingPoint_longitude = msg.longitude
+	
 
 if __name__ == '__main__':
 	print("In main")
@@ -395,14 +398,10 @@ if __name__ == '__main__':
 	print("Enter the Starting & Goal Location GPS coordinates")
 	#startingPoint_latitude=float(input("Enter Starting Latitude:"))
 	#startingPoint_longitude=float(input("Enter Starting Longitude:"))
-<<<<<<< HEAD
-	Goal_latitude=21.1612538933#float(input("Enter Goal Latitude:"))
-	Goal_longitude=72.7870579216#float(input("Enter Goal Longitude:"))
-=======
 	Goal_latitude=float(input("Enter Goal Latitude:"))#21.1613311089#
 	Goal_longitude=float(input("Enter Goal Longitude:"))#72.7870899849#
-	goal_pub = rospy.Publisher('goal_GPS', NavSatFix, queue_size = 5)
->>>>>>> 4f4c4f5... logical error solved in local co-ordinatesystem
+	angleOG=rospy.Publisher('angleOG',Float64,queue_size = 5)
+	GPS_pub = rospy.Publisher('goal_GPS', NavSatFix, queue_size = 5)
 	distance_pub = rospy.Publisher('/distance', Float64, queue_size = 5)
 	currLocation_pub = rospy.Publisher('/currentPose',Pose,queue_size=50)
 	rospy.Subscriber('/agribot/fix',NavSatFix,get_xy_based_on_lat_long,currLocation_pub)
