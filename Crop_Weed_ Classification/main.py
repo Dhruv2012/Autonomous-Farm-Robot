@@ -108,7 +108,7 @@ stopping = EarlyStopping(monitor='val_loss', min_delta=0.003, patience = 1, verb
 callbacks_list = []
 
 wcce = weighted_categorical_crossentropy(class_weights)
-seg_model.compile(loss = wcce,optimizer = "Adam",  metrics=['accuracy',iou_coef,keras_metrics.precision(),keras_metrics.recall()])
+seg_model.compile(loss = wcce,optimizer = "Adam",  metrics=['accuracy', iou_coef, keras_metrics.categorical_precision(label=0), keras_metrics.categorical_recall(label = 0), keras_metrics.categorical_precision(label=1), keras_metrics.categorical_recall(label = 1), keras_metrics.categorical_precision(label=2), keras_metrics.categorical_recall(label = 2)])
 
 if(DATASET == dataset["cwfid"]):
     print_shapes(x_train,y_train,x_test,y_test)
@@ -119,7 +119,12 @@ elif(DATASET == dataset["bonirob"]):
     #history = seg_model.fit_generator(train_gen, epochs = NO_OF_EPOCHS, steps_per_epoch = 600, validation_data=val_gen, validation_steps=150, callbacks = callbacks_list)
     metrics = seg_model.evaluate_generator(test_gen,steps = (NO_OF_TEST_IMAGES//BATCH_SIZE))
     print(metrics)
-    #print("LOSS: " + str(metrics[0]) + "Accuracy:" + str(metrics[1]))
+    print("Loss: " + str(metrics[0]))
+    print("Mean Accuracy: " + str(metrics[1]))
+    print("Mean iou " + str(metrics[2]))
+    print("Precision (label 0): " + str(metrics[3]) + " Recall (label 0): " + str(metrics[4]))
+    print("Precision (label 1): " + str(metrics[5]) + " Recall (label 1): " + str(metrics[6]))
+    print("Precision (label 2): " + str(metrics[7]) + " Recall (label 2): " + str(metrics[8]))
 #seg_model.save_weights(save_weights_path)
 
 
