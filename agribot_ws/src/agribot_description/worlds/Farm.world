@@ -4528,7 +4528,7 @@
         <xyzOffset>0 0 -0.26</xyzOffset>
         <rpyOffset>0 -0 0</rpyOffset>
       </plugin>
-      <pose frame=''>0 2 0 0 -0 0</pose>
+      <pose frame=''>2 0 0 0 -0 0</pose>
     </model>
     <model name='House 2'>
       <static>1</static>
