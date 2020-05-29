@@ -102,13 +102,13 @@ SSH:
      ```
      Now create a new Ethernet profile.
      
-     ![](readme-images/nmeditor.png)
+     ![nmeditor](readme-images/nmeditor.png)
      
      Click on the + button to create and select Ethernet in connection type.
      
      In IPV4 settings change the method to "Shared to other computers".
      
-     ![](readme-images/connection.png)
+     ![connection](readme-images/connection.png)
 
      And you are set to go.
      
