@@ -27,6 +27,8 @@ For setting up Jetson Nano, follow [Configuring Jetson Nano](https://github.com/
 
 ## Features:
 
+### Autonomous Navigation
+![autonomous navigation](Documents/readme-images/simulation.gif)
      
 ## Resources Used:     
      
