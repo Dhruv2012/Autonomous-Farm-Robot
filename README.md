@@ -115,7 +115,7 @@ SSH:
 ## Resources Used:     
      
 ## Project Build-Map:     
-## Happy building.!
+## Happy building!!
 If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.
 
 ## Project Team
