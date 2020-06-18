@@ -48,7 +48,7 @@ Mr. Dhruv Patel(U16EC053, SVNIT)\
 Mr. Meet Gandhi(U16EC056, SVNIT)\
 Mr. Shankarnarayan(U16EC07,SVNIT)
 
-Special Thanks To:
-*Mr. Mahesh Birajdar(U16ME084)* and [*Team DRISHTI*](https://github.com/DRISHTI-SVNIT) for helping us in solidwork designing and manufacturing of AGRIBOT.
+Special Thanks To:\
+**Mr. Mahesh Birajdar(U16ME084)** and [*Team DRISHTI*](https://github.com/DRISHTI-SVNIT) for helping us in solidwork designing and manufacturing of AGRIBOT.
 
 
