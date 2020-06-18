@@ -1,4 +1,9 @@
-# Autonomous-Farm-Robot(AGRIBOT)
+
+<center> <h1>Autonomous-Farm-Robot(AGRIBOT)</h1> </center> 
+ 
+
+## About Project
+<p align = "justify">
 The primary objective of this project is to design an autonomous agricultural robot specifically
 used for the removal of weed on the real-time basis without any human involvement. This will
 help to offer better and nutrients rich yield involving less man-power than the conventional
@@ -6,20 +11,21 @@ agriculture. This project can also be extended to design robot various other app
 in farming like ploughing, harvesting, etc. in turn making agriculture more autonomous and
 providing better yields which in turn will impact on the country’s GDP and lesser farmer suicide
 rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
+</p>     
 <p><img src="Documents/readme-images/AGRIBOT.jpg" width="45%"/><img src="Documents/readme-images/AGRIBOT_solidworks.JPG" width="55%"/></p>
 
-## Folder Organization:
+## Folder Organization
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
 
-## Features:
+## Features
 ### Autonomous Navigation
 ![autonomous navigation](Documents/readme-images/simulation.gif)
      
-## Project Build-Map:     
+## Project Build-Map     
 ![Timeline of Project](Documents/readme-images/Timeline.png)
 
 ## Wiki
-For more details about project, visit below links:\
+For more details about project, visit below links:
 1. [*Configure Jetson Nano for Remote access*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano)
 2. [*Electronics Components*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components)
 
