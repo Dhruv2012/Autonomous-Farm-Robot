@@ -50,6 +50,7 @@ Mr. Shankarnarayan(U16EC074,SVNIT)
 
 Special Thanks To:\
 <p align = "justify">
+ 
 **Mr. Mahesh Birajdar(U16ME084),SVNIT** and [*Team DRISHTI*](https://github.com/DRISHTI-SVNIT) for helping us in solidwork designing and manufacturing of AGRIBOT.
 </p>
 
