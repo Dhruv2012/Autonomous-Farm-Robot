@@ -8,6 +8,7 @@ providing better yields which in turn will impact on the country’s GDP and les
 rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 
 ![AGRIBOT](Documents/readme-images/AGRIBOT.jpg)
+![AGRIBOT SOLIDWORKS_IMAGE](Documents/readme-images/AGRIBOT_solidworks.JPG)
 
 ## Electronics Components list:
  | Components        | Specifications                            |   
