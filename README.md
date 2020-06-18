@@ -34,7 +34,8 @@ For setting up Jetson Nano, follow [Configuring Jetson Nano](https://github.com/
      
 ## Project Build-Map:     
 ## Happy building!!
-Feel free to raise an issue if you face any problems while implementing the modules. If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.
+Feel free to raise an issue if you face any problems while implementing the modules. If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.\
+Email ID:farmbot.svnit@gmail.com
 
 ## Project Team
 
