@@ -5,7 +5,7 @@ help to offer better and nutrients rich yield involving less man-power than the 
 agriculture. This project can also be extended to design robot various other applications involved
 in farming like ploughing, harvesting, etc. in turn making agriculture more autonomous and
 providing better yields which in turn will impact on the country’s GDP and lesser farmer suicide
-rates.It is a UG project under guidence of TEQIP-3 and ECE department at SVNIT.
+rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 
 ## Electronics Components list:
  | Components        | Specifications                            |   
@@ -95,22 +95,21 @@ SSH:
      And you have full GUI access of the board on your machine.
      
  #### Problems faced:
-     => It might hapen in some case the board gets ip address of 169.254.x.y. Using this ip address, one might able to login              using ssh connection, but the board might not get internet access and tasks like updating, upgrading and installing packages cannot be done.In this case, make sure you have shared your internet connection through ethernet.To do this,
-     1.) Execute the following command on host machine where the jetson board is connected through wired connection(Ethernet).
+It might hapen in some case the board gets ip address of 169.254.x.y. Using this ip address, one might able to login using ssh connection, but the board might not get internet access and tasks like updating, upgrading and installing packages cannot be done.In this case, make sure you have shared your internet connection through ethernet.To do this,
+     
+=> Execute the following command on host machine where the jetson board is connected through wired connection(Ethernet).
      ```
      nm-connection-editor
      ```
-     Now create a new Ethernet profile.
+     .Now create a new Ethernet profile.
      
      ![nmeditor](readme-images/nmeditor.png)
      
-     Click on the + button to create and select Ethernet in connection type.
-     
-     In IPV4 settings change the method to "Shared to other computers".
+   Click on the + button to create and select Ethernet in connection type.In IPV4 settings change the method to "Shared to         other computers".
      
      ![connection](readme-images/connection.png)
 
-     And you are set to go.
+   And you are set to go.
      
 ## Resources Used:     
      
