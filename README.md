@@ -1,5 +1,5 @@
 
-<center> <h1>Autonomous-Farm-Robot(AGRIBOT)</h1> </center> 
+<center>  <h1>Autonomous-Farm-Robot(AGRIBOT)</h1>   </center> 
  
 
 ## About Project
@@ -16,6 +16,8 @@ rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 
 ## Folder Organization
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
+<p align = "justify">
+</p>
 
 ## Features
 ### Autonomous Navigation
@@ -30,7 +32,9 @@ For more details about project, visit below links:
 2. [*Electronics Components*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components)
 
 ## Happy building!!
+<p align = "justify">
 Feel free to raise an issue if you face any problems while implementing the modules. If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.\
+</p> 
 Email ID:farmbot.svnit@gmail.com
 
 ## Project Team
@@ -45,6 +49,7 @@ Mr. Meet Gandhi(U16EC056, SVNIT)\
 Mr. Shankarnarayan(U16EC074,SVNIT)
 
 Special Thanks To:\
+<p align = "justify">
 **Mr. Mahesh Birajdar(U16ME084),SVNIT** and [*Team DRISHTI*](https://github.com/DRISHTI-SVNIT) for helping us in solidwork designing and manufacturing of AGRIBOT.
-
+</p>
 
