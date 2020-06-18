@@ -103,11 +103,11 @@ It might hapen in some case the board gets ip address of 169.254.x.y. Using this
      ```
      .Now create a new Ethernet profile.
      
-   ![nmeditor](../master/readme-images/nmeditor.png?raw=true)
+   ![nmeditor](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/readme-images/nmeditor.png)
      
    Click on the + button to create and select Ethernet in connection type.In IPV4 settings change the method to "Shared to         other computers".
      
-   ![connection](../master/readme-images/connection.png?raw=true)
+   ![connection](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/readme-images/connection.png)
 
    And you are set to go.
      
