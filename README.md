@@ -7,6 +7,8 @@ in farming like ploughing, harvesting, etc. in turn making agriculture more auto
 providing better yields which in turn will impact on the country’s GDP and lesser farmer suicide
 rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 
+![AGRIBOT](Documents/readme-images/AGRIBOT.jpg)
+
 ## Electronics Components list:
  | Components        | Specifications                            |   
  | ------------------|:-----------------------------------------:|
