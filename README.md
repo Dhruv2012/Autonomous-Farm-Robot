@@ -1,8 +1,8 @@
 
 <center>  <h1>Autonomous-Farm-Robot(AGRIBOT)</h1>   </center> 
  
-
 ## About the Project
+
 <p align = "justify">
 
 The primary objective of this project is to design an autonomous agricultural robot specifically
@@ -12,6 +12,7 @@ agriculture. This project can also be extended to design robot various other app
 in farming like ploughing, harvesting, etc. in turn making agriculture more autonomous and
 providing better yields which in turn will impact on the country’s GDP and lesser farmer suicide
 rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Department</b> at <b>SVNIT</b>.
+
 </p>     
 <p><img src="Documents/readme-images/AGRIBOT.jpg" width="45%"/><img src="Documents/readme-images/AGRIBOT_solidworks.JPG" width="55%"/></p>
 
@@ -24,7 +25,7 @@ rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Depa
 Mainly project is divided into two part, i.e. Autonomous Navigation & Crop Weed Classification. The main Autonomous-Farm-Robot contains all of the documentation and scripts required for the project, broken down into the four sections: Classification Model, Dataset Analysis, Documentation, and agribot_ws. We have created [Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki) for better understanding for our project.
 
 - **Crop_Weed_Classification:** Contains scripts for classification task.
-- **agribot_ws:** Catkin workspace for ROS.
+- **agribot_ws:** Catkin workspace for navigation and modelling.
 - **Documents:** Documentation of the project. Includes Project Report & Presentation, Proposal, Research Papers etc.
 - **Datasets(Git):** For Analysis of Datasets. [Bonn Dataset](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) contains samples with missing images. So, there is a need to remove such samples. We have listed these samples which contains missing images in it. 
 </p>
@@ -88,7 +89,9 @@ For setting up environment and understanding of scripts, visit [Crop-Weed-Classi
 
 ## Project Build-Map     
 ![Timeline of Project](Documents/readme-images/Timeline.png)
+<p align="justify">
 Various Sensor such as NEO-M8N GPS, MPU-9265 and Raspberry PI Cam-v2 were integrated on Nvidia Jetson Nano. However, due to COVID-19 pandemic, further development on hardware was not possible. Hence, we shifted our approach on simulation-basis. We tested our software and algorithms through modelling and simulation and have tried to make it close to real-case scenarios. For Eg: Modelling Sensors with noise to create a real-case scenario. 
+</p>
 
 ## Project Report
 Access the Project Report at `Documents/G-13 UG Project Report.pdf`.
