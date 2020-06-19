@@ -17,7 +17,6 @@ rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 ## Folder Organization
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
 <p align = "justify">
-Mainly project is divided into two part, i.e. Autonomous Navigation & Crop and Weed Classification. The main Autonomous-Farm-Robot contains all of the documentation and scripts required for the projecct, broken down into the four sections: Classification Model, Dataset Analysis, Documentatiion, and agribot_ws. We have created Wiki for better understanding for our project.  
 </p>
 
 ## Features
@@ -28,7 +27,7 @@ Mainly project is divided into two part, i.e. Autonomous Navigation & Crop and W
 
 <p>
 
-We trained and tested 2 models: UNet & Bonnet on [*CWFID*](https://github.com/cwfid/dataset) & [*Bonn*](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) Datasets. Implemenatation of **Bonnet Architecture** by [*PRBonn*](https://github.com/PRBonn) (Photogrammetry & Robotics Lab at the University of Bonn) can be found [*here*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/ResearchPapers/Crop_Weed_Classification/1709.06764.pdf). Bonnet performed better than its UNet counterpart and was suitable for real-time deployment due to its approx. 100x lesser parameters compared to UNet. Hence, **Bonnet** was selected as the final classification model.
+We trained and tested 2 models: UNet & Bonnet on [CWFID](https://github.com/cwfid/dataset) & [Bonn](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) Datasets. **Bonnet Architecture** by [PRBonn](https://github.com/PRBonn) (Photogrammetry & Robotics Lab at the University of Bonn) can be found [here](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/Research%20Papers/Crop_Weed_Classification/1709.06764.pdf). Bonnet performed better than its UNet counterpart and was suitable for real-time deployment due to its approx. 100x lesser parameters compared to UNet. Hence, **Bonnet** was selected as the final classification model.
 </p>
 
 
@@ -68,7 +67,7 @@ Avg. 2.5 fps on i7 8th Gen + 4GB NVIDIA 940 MX.
 ![Timeline of Project](Documents/readme-images/Timeline.png)
 
 ## Wiki
-For more details about project, visit below links:
+For more details about project and implementation of modules, visit below links:
 1. [*Configure Jetson Nano for Remote access*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano)
 2. [*Electronics Components*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components)
 
