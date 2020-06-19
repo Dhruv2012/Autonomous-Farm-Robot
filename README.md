@@ -22,19 +22,21 @@ rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Depa
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
 <p align = "justify">
  
-Mainly project is divided into two part, i.e. Autonomous Navigation & Crop Weed Classification. The main Autonomous-Farm-Robot contains all of the documentation and scripts required for the project, broken down into the four sections: Classification Model, Dataset Analysis, Documentation, and agribot_ws. We have created [Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki) for better understanding for our project.
+Mainly project is divided into two part, i.e. Autonomous Navigation & Crop Weed Classification. The main Autonomous-Farm-Robot contains all of the documentation and scripts required for the project, broken down into the four sections: Classification Model, Dataset Analysis, Documentation, and agribot_ws. We have created [Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki") for better understanding for our project.
 
 - **Crop_Weed_Classification:** Contains scripts for classification task.
 - **agribot_ws:** Catkin workspace for navigation and modelling.
 - **Documents:** Documentation of the project. Includes Project Report & Presentation, Proposal, Research Papers etc.
-- **Datasets(Git):** For Analysis of Datasets. [Bonn Dataset](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) contains samples with missing images. So, there is a need to remove such samples. We have listed these samples which contains missing images in it. 
+- **Datasets(Git):** For Analysis of Datasets. [Bonn Dataset](https://www.ipb.uni-bonn.de/data/sugarbeets2016/ "https://www.ipb.uni-bonn.de/data/sugarbeets2016/") contains samples with missing images. So, there is a need to remove such samples. We have listed these samples which contains missing images in it. 
 </p>
 
 
 ## Wiki
 For more details about project and implementation of modules, visit below links:
-1. [*Configure Jetson Nano for Remote access*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano)
-2. [*Electronics Components*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components)
+1. [Configure Jetson Nano for Remote access](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano")
+2. [Crop Weed Classification](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification")
+3. [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation")
+4. [Electronics Components](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components")
 
 
 ## Features
@@ -70,7 +72,7 @@ We trained and tested 2 models: UNet & Bonnet on Datasets namely: [CWFID](https:
 
 ![](Documents/readme-images/bonnet-metrics.png)
 
-Here,label 0,1,2 are in order of Weed,Crop and Soil(i.e. R,G,B).
+- Label 0,1,2 are in order of Weed,Crop and Soil(i.e. R,G,B).
 
 
 #### Real-time latency:  
@@ -85,7 +87,7 @@ Avg. 2.5 fps on i7 8th Gen + 4GB NVIDIA 940 MX.
 <img src="Documents/readme-images/prediction-onr-realimage2.png" width="1080" height="360"/>
 </p>
 
-For setting up environment and understanding of scripts, visit [Crop-Weed-Classification Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification) page.
+For setting up environment,understanding of scripts and **model weights**, visit [Crop-Weed-Classification Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification) page.
 
 ## Project Build-Map     
 ![Timeline of Project](Documents/readme-images/Timeline.png)
