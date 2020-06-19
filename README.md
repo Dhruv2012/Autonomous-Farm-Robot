@@ -47,7 +47,7 @@ For more details about project and implementation of modules, visit below links:
 
 <p align = "justify">
 
-We trained and tested 2 models: UNet & Bonnet on Datasets namely: [CWFID](https://github.com/cwfid/dataset) & [Bonn](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) . **Bonnet Architecture** by [PRBonn](https://github.com/PRBonn) (Photogrammetry & Robotics Lab at the University of Bonn) can be viewed [here](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/Research%20Papers/Crop_Weed_Classification/1709.06764.pdf). Implementation of both architecture is done in `Crop_Weed_ Classification/model.py`. Bonnet performed better than its UNet counterpart and was suitable for real-time deployment due to its approx. 100x lesser parameters compared to UNet. Hence, **Bonnet** was selected as the final classification model.
+We trained and tested 2 models: UNet & Bonnet on Datasets namely: [CWFID](https://github.com/cwfid/dataset "https://github.com/cwfid/dataset") & [Bonn](https://www.ipb.uni-bonn.de/data/sugarbeets2016/ "https://www.ipb.uni-bonn.de/data/sugarbeets2016/"). **Bonnet Architecture** by [PRBonn](https://github.com/PRBonn) (Photogrammetry & Robotics Lab at the University of Bonn) can be viewed [here](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/Research%20Papers/Crop_Weed_Classification/1709.06764.pdf). Implementation of both architecture is done in `Crop_Weed_ Classification/model.py`. Bonnet performed better than its UNet counterpart and was suitable for real-time deployment due to its approx. 100x lesser parameters compared to UNet. Hence, **Bonnet** was selected as the final classification model.
  
 </p>
 
@@ -87,7 +87,7 @@ Avg. 2.5 fps on i7 8th Gen + 4GB NVIDIA 940 MX.
 <img src="Documents/readme-images/prediction-onr-realimage2.png" width="1080" height="360"/>
 </p>
 
-For setting up environment,understanding of scripts and **model weights**, visit [Crop-Weed-Classification Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification) page.
+**NOTE:** For setting up environment,understanding of scripts and **model weights**, visit [Crop-Weed-Classification Wiki](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification) page.
 
 ## Project Build-Map     
 ![Timeline of Project](Documents/readme-images/Timeline.png)
@@ -98,7 +98,7 @@ Various Sensor such as NEO-M8N GPS, MPU-9265 and Raspberry PI Cam-v2 were integr
 ## Project Report
 Access the Project Report at `Documents/G-13 UG Project Report.pdf`.
 
-## Happy building!!:rocket:
+## Happy building!!:rocket::rocket:
 <p align = "justify">
 Feel free to raise an issue if you face any problems while implementing the modules. If you have any questions or run into problems during understanding of our project, please reach out to us through mail. We would be happy to share as much as possible.
 </p> 
