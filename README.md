@@ -20,10 +20,10 @@ rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 </p>
 
 ## Features
-### Autonomous Navigation
+### 1. Autonomous Navigation
 ![autonomous navigation](Documents/readme-images/simulation.gif)
 
-### Crop Weed Classification
+### 2. Crop Weed Classification
 
 <p>
 
@@ -77,9 +77,10 @@ Head & Associate Professor,\
 ECED, SVNIT.
 
 Development Team:\
-Mr. Dhruv Patel(U16EC053, SVNIT)\
-Mr. Meet Gandhi(U16EC056, SVNIT)\
-Mr. Shankarnarayan(U16EC074,SVNIT)
- 
-Special Thanks To:\  
+[Dhruv Patel](https://github.com/Dhruv2012 "https://github.com/Dhruv2012")(U16EC053, SVNIT)\
+[Meet Gandhi](https://github.com/mEET126 "https://github.com/mEET126")(U16EC056, SVNIT)\
+[Shankaranarayanan H.](https://github.com/shankar59 "https://github.com/shankar59") (U16EC074,SVNIT)
+
+
+Special Thanks To:
 **Mr. Mahesh Birajdar(U16ME084),SVNIT** and [*Team DRISHTI*](https://github.com/DRISHTI-SVNIT) for helping us in solidwork designing and manufacturing of AGRIBOT.
