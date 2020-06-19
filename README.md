@@ -38,12 +38,14 @@ We trained and tested 2 models: UNet & Bonnet on [*CWFID*](https://github.com/cw
 
 
 #### Prediction on CWFID Dataset: 
-
-![](Documents/readme-images/bonnet-on-cwfid.png)
+<p>
+<img src="Documents/readme-images/bonnet-on-cwfid.png" width="1080" height="240"/>
+</p>
 
 #### Prediction on Bonn Dataset:
-
-![](Documents/readme-images/bonnet-on-bonn.png)
+<p>
+<img src="Documents/readme-images/bonnet-on-bonn.png" width="1080" height="240"/>
+</p>
 
 #### Metrics on Bonn Dataset:
 
