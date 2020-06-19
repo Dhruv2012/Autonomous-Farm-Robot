@@ -30,6 +30,10 @@ rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 We trained and tested 2 models: UNet & Bonnet on [*CWFID*](https://github.com/cwfid/dataset) & [*Bonn*](https://www.ipb.uni-bonn.de/data/sugarbeets2016/) Datasets. Implemenatation of **Bonnet Architecture** by [*PRBonn*](https://github.com/PRBonn) (Photogrammetry & Robotics Lab at the University of Bonn) can be found [*here*](https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/ResearchPapers/Crop_Weed_Classification/1709.06764.pdf). Bonnet performed better than its UNet counterpart and was suitable for real-time deployment due to its approx. 100x lesser parameters compared to UNet. Hence, **Bonnet** was selected as the final classification model.
 </p>
 
+
+**NOTE:** Here, Red => Weed, Green => Crop and Blue => Soil.
+
+
 ![gazebo prediction](Documents/readme-images/model-prediction-on-gazebo.gif)
 
 
@@ -51,7 +55,10 @@ Here,label 0,1,2 are in order of Weed,Crop and Soil(i.e. R,G,B).
 #### Real-time latency:  
 Avg. 2.5 fps on i7 8th Gen + 4GB NVIDIA 940 MX.
 
-#### Prediction on images from Surrounding Farm
+#### Prediction on images from Surrounding Farm:
+![img1](Documents/readme-images/prediction-on-realimage1.png)
+
+![img2](Documents/readme-images/prediction-onr-realimage2.png)
 
 
 ## Project Build-Map     
