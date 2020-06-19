@@ -17,6 +17,7 @@ rates.It is a UG project under guidance of TEQIP-3 and ECE department at SVNIT.
 ## Folder Organization
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
 <p align = "justify">
+Mainly project is divided into two part, i.e. Autonomous Navigation & Crop and Weed Classification. The main Autonomous-Farm-Robot contains all of the documentation and scripts required for the projecct, broken down into the four sections: Classification Model, Dataset Analysis, Documentatiion, and agribot_ws. We have created Wiki for better understanding for our project.  
 </p>
 
 ## Features
