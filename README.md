@@ -36,7 +36,7 @@ For more details about project and implementation of modules, visit below links:
 1. [Configure Jetson Nano for Remote access](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano")
 2. [Crop Weed Classification](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification")
 3. [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation")
-4. [Electronics Components](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components")
+4. [Electronics Components and Sensor Modelling](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components-and-Sensor-Modelling "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components-and-Sensor-Modelling")
 
 
 ## Features
