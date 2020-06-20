@@ -41,7 +41,7 @@ For more details about project and implementation of modules, visit below links:
 
 ## Features
 ### 1. Autonomous Navigation
-First we designed our generalized robotic structure using Solidworks-2016 and generated URDF for same and then spawn our model into GAZEBO. Crops were designed as cylindrical shape and given texture of plants, further we can design using 3D modelling software like Blender. Other models were taken from Gazebo model library.At this stage, We've used GPS & Magnetometer for autonomous traversing in field. For reduction of sensor noise, we implemented Moving Median and Single dimention Kalman Filter. You can find scripts in `agribot_ws/src/autonomous_drive`. For installation of pkgs and dependencies visit [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation) wiki page.        
+First we designed our generalized robotic structure using Solidworks-2016 and generated URDF for same and then spawn our model into GAZEBO. Crops were designed as cylindrical shape and given texture of plants, further we can design using 3D modelling software like  Blender. Other models were taken from Gazebo model library. At this  stage, We've  used GPS & Magnetometer for autonomous  traversing in field. For reduction of sensor noise, we implemented Moving Median and Single dimention  Kalman  Filter.  You can find scripts in  `agribot_ws/src/autonomous_drive`.  For installation of pkgs and dependencies visit [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation) wiki page.        
 **Note:** Here, 
 1. Left side window: Mapviz, Right side window: Gazebo
 2. Green points are end points of row in field, Blue line is traced trajectory of AGRIBOT.
