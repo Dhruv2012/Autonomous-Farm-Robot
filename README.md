@@ -33,15 +33,26 @@ Mainly project is divided into two part, i.e. Autonomous Navigation & Crop Weed 
 
 ## Wiki
 For more details about project and implementation of modules, visit below links:
-1. [Configure Jetson Nano for Remote access](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano")
-2. [Crop Weed Classification](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification")
-3. [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation")
+1. [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation") 
+2. [Configure Jetson Nano for Remote access](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Configuring-Jetson-Nano")
+3. [Crop Weed Classification](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Crop-Weed-Classification")
 4. [Electronics Components and Sensor Modelling](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components-and-Sensor-Modelling "https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Electronics-Components-and-Sensor-Modelling")
 
 
 ## Features
 ### 1. Autonomous Navigation
+First we designed our generalized robotic structure using Solidworks-2016 and generated URDF for same and then spawn our model into GAZEBO. Crops were designed as cylindrical shape and given texture of plants, further we can design using 3D modelling software like Blender. Other models were taken from Gazebo model library.At this stage, We've used GPS & Magnetometer for autonomous traversing in field. For reduction of sensor noise, we implemented Moving Median and Single dimention Kalman Filter. You can find scripts in `agribot_ws/src/autonomous_drive`. For installation of pkgs and dependencies visit [Autonomous Navigation](https://github.com/Dhruv2012/Autonomous-Farm-Robot/wiki/Autonomous-Navigation) wiki page.        
+**Note:** Here, 
+1. Left side window: Mapviz, Right side window: Gazebo
+2. Green points are end points of row in field, Blue line is traced trajectory of AGRIBOT.
+3. Image window from Camera is being directly fed into classification model.
 ![autonomous navigation](Documents/readme-images/simulation.gif)
+
+#### Sensor Noise Reduction (Left: Moving Median, Right: Kalman Filter)
+<p>
+<img src="https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/readme-images/Heading%20Correction%20Using%20Filter.png" width="440" height="240" />
+<img src="https://github.com/Dhruv2012/Autonomous-Farm-Robot/blob/master/Documents/readme-images/Heading%20Correction%20using%20Kalman%20filter%20(2).png" width="440" height="240"/>
+</p>
 
 ### 2. Crop Weed Classification
 
