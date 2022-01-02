@@ -16,6 +16,11 @@ rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Depa
 </p>     
 <p><img src="Documents/readme-images/AGRIBOT.jpg" width="45%"/><img src="Documents/readme-images/AGRIBOT_solidworks.JPG" width="55%"/></p>
 
+## Our published paper at the AVES 2021 conference
+**"Design of an Autonomous Agricultural Robot for Real Time Weed Detection using CNN"**, **Dhruv Patel<sup>1</sup>, Meet Gandhi<sup>1</sup>, ShankaraNarayanan H.<sup>1</sup>** and Anand Darji, published at the **[AVES 2021](https://aves2021.org/) conference**. [[Paper]](https://drive.google.com/file/d/1Ss4o4EYnGEhrGYFlM-2nI51QStGxraFL/view?usp=sharing)
+- We have proposed system-design of the Autonomous Farm Robot which includes various modules such as Embedded and Mechanical system design, modeling and simulation of Robot, path-planning, and Deep Learning for crop-weed classification.
+- We will provide the citation soon. 
+<br> </br>
 
 
 ## Folder Organization
