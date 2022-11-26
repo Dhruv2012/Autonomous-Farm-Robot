@@ -1,6 +1,10 @@
-
-<center>  <h1>Autonomous-Farm-Robot(AGRIBOT)</h1>   </center> 
+<!--  
+<center>  
+ <h1>Autonomous-Farm-Robot(AGRIBOT) ![Paper](https://arxiv.org/abs/2211.12077) 
+ </h1>   
+</center>  -->
  
+# Autonomous-Farm-Robot(AGRIBOT) [[Paper]](https://arxiv.org/abs/2211.12077) 
 ## About the Project
 
 <p align = "justify">
@@ -16,13 +20,26 @@ rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Depa
 </p>     
 <p><img src="Documents/readme-images/AGRIBOT.jpg" width="45%"/><img src="Documents/readme-images/AGRIBOT_solidworks.JPG" width="55%"/></p>
 
-## Our published paper at the AVES 2021 conference
-**"Design of an Autonomous Agricultural Robot for Real Time Weed Detection using CNN"**, **Dhruv Patel<sup>1</sup>, Meet Gandhi<sup>1</sup>, ShankaraNarayanan H.<sup>1</sup>** and Anand Darji, published at the **[AVES 2021](https://aves2021.org/) conference**. 
+## Published at the AVES 2021 Conference [[Paper]](https://arxiv.org/abs/2211.12077)
+**"Design of an Autonomous Agricultural Robot for Real Time Weed Detection using CNN"**, **Dhruv Patel<sup>1</sup>, Meet Gandhi<sup>1</sup>, ShankaraNarayanan H.<sup>1</sup>** and Anand Darji, published at the AVES 2021 conference. 
 
 - We have proposed system-design of the Autonomous Farm Robot which includes various modules such as Embedded and Mechanical system design, modeling and simulation of Robot, path-planning, and Deep Learning for crop-weed classification.
-- We will provide the citation soon. 
-<br> </br>
 
+If you use our work or find it useful, please consider citing:
+```
+@misc{https://doi.org/10.48550/arxiv.2211.12077,
+  doi = {10.48550/ARXIV.2211.12077},  
+  url = {https://arxiv.org/abs/2211.12077},
+  author = {Patel, Dhruv and Gandhi, Meet and H., Shankaranarayanan and Darji, Anand D.},
+  keywords = {Robotics (cs.RO), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Design of an Autonomous Agriculture Robot for Real Time Weed Detection using CNN},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
+}
+```
+
+<br>
 
 ## Folder Organization
 ![Folder_str](Documents/readme-images/Folder_str.jpg)
