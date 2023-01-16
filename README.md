@@ -4,7 +4,7 @@
  </h1>   
 </center>  -->
  
-# Autonomous-Farm-Robot(AGRIBOT) [[Paper]](https://arxiv.org/abs/2211.12077) 
+# Autonomous-Farm-Robot(AGRIBOT) [[Paper]](https://arxiv.org/abs/2211.12077) [[Springer]](https://link.springer.com/chapter/10.1007/978-981-19-6780-1_13)
 ## About the Project
 
 <p align = "justify">
@@ -20,7 +20,7 @@ rates.It is a <b>UG project</b> under guidance of <b>TEQIP-3</b> and <b>ECE Depa
 </p>     
 <p><img src="Documents/readme-images/AGRIBOT.jpg" width="45%"/><img src="Documents/readme-images/AGRIBOT_solidworks.JPG" width="55%"/></p>
 
-## Published at the AVES 2021 Conference [[Paper]](https://arxiv.org/abs/2211.12077)
+## Published at the AVES 2021 Conference [[Paper]](https://arxiv.org/abs/2211.12077) [[Springer]](https://link.springer.com/chapter/10.1007/978-981-19-6780-1_13)
 **"Design of an Autonomous Agricultural Robot for Real Time Weed Detection using CNN"**, **Dhruv Patel<sup>1</sup>, Meet Gandhi<sup>1</sup>, ShankaraNarayanan H.<sup>1</sup>** and Anand Darji, published at the AVES 2021 conference. 
 
 - We have proposed system-design of the Autonomous Farm Robot which includes various modules such as Embedded and Mechanical system design, modeling and simulation of Robot, path-planning, and Deep Learning for crop-weed classification.
